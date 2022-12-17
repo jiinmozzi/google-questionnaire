@@ -1,0 +1,61 @@
+$gray-color : rgb(95,99,103);
+
+#side-bar-wrapper{
+    display : flex;
+    flex-direction : column;
+    padding : 10px 0;
+    justify-content: space-between;
+    align-items: center;
+    gap : 10px;
+    width : 50px;
+    height : 280px;
+    border-radius : 10px;
+    background-color : white;
+    position : absolute;
+    top : 50px;
+    left : calc(50% + 400px);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+    .side-bar-icon-wrapper{
+        width : 40px;
+        height : 40px;
+        border-radius: 50%;
+        display : flex;
+        justify-content : center;
+        align-items: center;
+        position : relative;
+        &:hover{
+            background-color : rgba(0,0,0,0.03);
+            cursor : pointer;
+        }
+        .side-bar-icons{
+            font-size : 24px;
+            color : $gray-color;
+        }
+        .tooltip{
+            width : 85px;
+            height : 20px;
+            background-color : $gray-color;
+            color : #fff;
+            font-size : 11px;
+            position : absolute;
+            left : 50px;
+            display : flex;
+            justify-content : center;
+            align-items: center;
+            border-radius : 2px;
+        }
+    }
+    .side-bar-deactivated-icon-wrapper{
+        width : 40px;
+        height : 40px;
+        border-radius: 50%;
+        display : flex;
+        justify-content : center;
+        align-items: center;
+        .deactivated-icons{
+            color : rgb(223,147,171);
+            // pointer-events: none;
+            cursor : not-allowed;
+        }
+    }    
+}
