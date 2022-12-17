@@ -1,0 +1,12 @@
+.font-style-selector-wrapper{
+    display : flex;
+    gap : 18px;
+    padding-left : 10px;
+    margin-bottom : 20px;
+    transition : 0.5 ease-in-out;
+    
+    .font-style-select-icon{
+        fill : rgb(95,99,103);
+        font-size : 24px;
+    }
+}

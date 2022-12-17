@@ -1,1 +1,79 @@
-#header-wrpaper{}
+$main-color : rgb(103,58,182);
+$focus-color : rgb(66,132,243);
+$gray-color : rgb(95,99,103);
+#header-wrapper{
+    width : 768px;
+    margin : 0 auto;
+    margin-top : 50px;
+    border-radius : 8px;
+    display : flex;
+    flex-direction : column;
+    box-shadow : 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    background-color : #fff;
+    position : relative;
+    #header-belt{
+        width : 100%;
+        height : 10px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        background-color : $main-color;
+        z-index : 3;
+    }
+
+    #header-focused{
+        width : 6px;
+        top : 10px;
+        height : calc(100% + -10px);
+        border-bottom-left-radius : 8px;
+        position : absolute;
+        background-color : $focus-color;
+    }
+    #header-content{
+        display : flex;
+        width : 100%;
+        #header-input-wrapper{
+            width : 100%;
+            padding : 0 24px;
+            .header-input{
+                position : relative;
+                outline : none;
+                border : none;
+                border-bottom : 1px solid rgba(95,99,103, 0.3); 
+                width : 100%;
+                padding-bottom : 8px;
+                transition : border-bottom 0.3s ease-in-out;
+                &:after{
+                    content : "";
+                    display : block;
+                    position: absolute; 
+                    top:0; left:50%;
+                    height : 100%;
+                    width: 100%; 
+                    box-sizing: border-box;
+                    border-bottom: 1px solid $main-color;
+                    // z-index : 100;
+                    transition : width 0.5s, left 0.5s;
+                }
+                &:focus{
+                    border-bottom : 2px solid $main-color;
+                }
+                &:focus:after{
+                    width : 100%;
+                    left : 0;
+                    border-bottom : 2px solid $main-color;
+                }
+            }
+            #header-title{
+                font-size : 32px;
+                margin-top : 24px;
+                margin-bottom : 12px;
+                
+            }
+            #header-explanation{
+                font-size : 15px;
+                margin-bottom : 24px;
+                padding-bottom : 3px;
+            }
+        }
+    }
+}
