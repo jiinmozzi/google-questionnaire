@@ -1,12 +1,27 @@
+$main-color : rgb(103,58,182);
+// $main-color : rgb(237,108,3);
 .font-style-selector-wrapper{
+    width : 100%;
     display : flex;
     gap : 18px;
     padding-left : 10px;
     margin-bottom : 20px;
-    transition : 0.5 ease-in-out;
-    
-    .font-style-select-icon{
-        fill : rgb(95,99,103);
-        font-size : 24px;
+    // transition : 0.5 ease-in-out;
+    .font-icon-wrapper{
+        width : 32px;
+        height : 32px;
+        display : flex;
+        justify-content: center;
+        align-items: center;
+        .font-style-select-icon{
+            fill : rgb(95,99,103);
+            font-size : 24px;
+            &:hover{
+                cursor : pointer;
+                border-radius: 2px;
+                background-color : rgba(0,0,0,0.1);
+                
+            }
+        }
     }
 }

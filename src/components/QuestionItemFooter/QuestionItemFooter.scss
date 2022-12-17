@@ -1,10 +1,15 @@
+$gray-color : rgb(95,99,103);
+$grayline : rgba(95,99,103, 0.3);
 .question-item-footer{
-    width : 768px;
+    padding : 20px 0;
+    width : 100%;
     margin : 0 auto;
     display : flex;
     justify-content: flex-end;
     gap : 15px;
     align-items : center;
+    position : relative;
+    
     #question-control-icon-wrapper{
         display : flex;
         gap : 15px;
@@ -42,4 +47,14 @@
             cursor : not-allowed;
         }
     }
+    
+}
+.question-item-footer::before{
+    content : "";
+    display : block;
+    position: absolute;
+    top : 0;
+    left : 0;   
+    width : 100%;
+    border-top : 1px solid rgba(95,99,103, 0.3);
 }

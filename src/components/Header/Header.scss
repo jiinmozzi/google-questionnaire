@@ -42,24 +42,8 @@ $gray-color : rgb(95,99,103);
                 width : 100%;
                 padding-bottom : 8px;
                 transition : border-bottom 0.3s ease-in-out;
-                &:after{
-                    content : "";
-                    display : block;
-                    position: absolute; 
-                    top:0; left:50%;
-                    height : 100%;
-                    width: 100%; 
-                    box-sizing: border-box;
-                    border-bottom: 1px solid $main-color;
-                    // z-index : 100;
-                    transition : width 0.5s, left 0.5s;
-                }
+               
                 &:focus{
-                    border-bottom : 2px solid $main-color;
-                }
-                &:focus:after{
-                    width : 100%;
-                    left : 0;
                     border-bottom : 2px solid $main-color;
                 }
             }
