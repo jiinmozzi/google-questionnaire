@@ -2,9 +2,14 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 import "./MultipleQuestion.scss";
+import { ExplanationItemType, QuestionItemType } from '../../../types';
 
 type MultipleQuestionChoicePropsType = {
     idx : number
+}
+
+type MultipleQuestionPropsType = {
+    questionData : QuestionItemType | ExplanationItemType,
 }
 
 const MultipleQuestionChoice = ( {idx} : MultipleQuestionChoicePropsType ) => {
@@ -20,7 +25,7 @@ const MultipleQuestionChoice = ( {idx} : MultipleQuestionChoicePropsType ) => {
     )
 }
 
-const MultipleQuestion = () => {
+const MultipleQuestion = ({ questionData } : MultipleQuestionPropsType) => {
     return (
         <div className="multiple-question-wrapper">
             <MultipleQuestionChoice idx={1}/>

@@ -1,9 +1,14 @@
+import { ExplanationItemType, QuestionItemType } from "../../../types";
 import "./LongQuestion.scss";
 
-const LongQuestion = () => {
+type LongQuestionPropsType = {
+    questionData : QuestionItemType | ExplanationItemType,
+}
+
+const LongQuestion = ({ questionData } : LongQuestionPropsType) => {
     return (
         <div className="long-question-wrapper">
-            long
+            <input type="text" className="long-question-input" placeholder="장문형 텍스트"/>
         </div>
     )
 }

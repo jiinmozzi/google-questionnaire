@@ -2,9 +2,14 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import CheckBoxOutlineBlankRoundedIcon from '@mui/icons-material/CheckBoxOutlineBlankRounded';
 
 import "./CheckBoxQuestion.scss"
+import { ExplanationItemType, QuestionItemType } from '../../../types';
 
 type CheckBoxQuestionChoicePropsType = {
     idx : number
+}
+
+type CheckBoxQuestionPropsType = {
+    questionData : QuestionItemType | ExplanationItemType,
 }
 
 const CheckBoxQuestionChoice = ({ idx } : CheckBoxQuestionChoicePropsType) => {
@@ -20,7 +25,7 @@ const CheckBoxQuestionChoice = ({ idx } : CheckBoxQuestionChoicePropsType) => {
     )
 }
 
-const CheckBoxQuestion = () => {
+const CheckBoxQuestion = ({ questionData } : CheckBoxQuestionPropsType ) => {
     return (
         <div className="checkbox-question-wrapper">
             <CheckBoxQuestionChoice idx={1}/>

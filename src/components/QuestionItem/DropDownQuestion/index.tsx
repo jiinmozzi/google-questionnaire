@@ -1,8 +1,14 @@
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+
+import { ExplanationItemType, QuestionItemType } from '../../../types';
 import "./DropDownQuestion.scss";
 
 type DropDownQuestionChoicePropsType = {
     idx : number,
+}
+
+type DropDownQuestionPropsType = {
+    questionData : QuestionItemType | ExplanationItemType,
 }
 
 const DropDownQuestionChoice = ({idx} : DropDownQuestionChoicePropsType) => {
@@ -17,7 +23,7 @@ const DropDownQuestionChoice = ({idx} : DropDownQuestionChoicePropsType) => {
     )
 }
 
-const DropDownQuestion = () => {
+const DropDownQuestion = ({questionData} : DropDownQuestionPropsType) => {
 
     return (
         <div className="dropdown-question-wrapper">
