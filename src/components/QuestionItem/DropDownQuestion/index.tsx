@@ -1,8 +1,37 @@
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import "./DropDownQuestion.scss";
 
-const DropDownQuestion = () => {
+type DropDownQuestionChoicePropsType = {
+    idx : number,
+}
+
+const DropDownQuestionChoice = ({idx} : DropDownQuestionChoicePropsType) => {
     return (
-        <div className="dropdown-question-wrapper"></div>
+        <div className="dropdown-question-choice-wrapper">
+            <label htmlFor={`choice-${idx}`} className="dropdown-question-label">
+                {idx}
+            </label>
+            <input className="dropdown-question-input" type="text" id={`dropdown-${idx}`} defaultValue={idx}/>
+            <CloseRoundedIcon className="dropdown-delete-icon"/>
+        </div>
+    )
+}
+
+const DropDownQuestion = () => {
+
+    return (
+        <div className="dropdown-question-wrapper">
+            <DropDownQuestionChoice idx={1}/>
+            <DropDownQuestionChoice idx={2}/>
+            <div className="dropdown-add-indicator">
+                
+                <div className="choice-add-div">
+                    <span id="add-option">옵션 추가</span>&nbsp;
+                    <span>또는</span>&nbsp;
+                    <span id="add-others">'기타' 추가</span>
+                </div>
+            </div>
+        </div>
     )
 }
 
