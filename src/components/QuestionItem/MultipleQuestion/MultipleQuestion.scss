@@ -1,0 +1,81 @@
+$main-color : rgb(103,58,182);
+
+.multiple-question-wrapper{
+    .choice-add-indicator{
+        margin : 10px 0;
+        display : flex;
+        align-items : center;
+        position : relative;
+        .choice-add-icon{
+            color : rgb(95,99,103);
+            margin-right : 20px;
+        }
+        .choice-add-div{
+            height : 100%;
+            width : 50%;
+            display : flex;
+            align-items: center;
+            padding : 10px 0;
+            outline : none;
+            border : none;
+            font-size : 16px;
+            border-bottom : 2px solid #fff;
+            transition : 0.3s ease-in-out;
+            font-size : 14px;
+            #add-option{
+                color : rgb(95,99,103);
+                &:hover{
+                    cursor : pointer;
+                }
+            }
+            #add-others{
+                color : #1a73e8;
+                &:hover{
+                    cursor : pointer;
+                }
+            }
+            &:hover{
+                border-bottom : 2px solid rgb(95, 99, 103);
+            }
+        }
+    }
+    .multiple-question-choice-wrapper{
+        // padding : 14px 0;
+        margin : 10px 0;
+        display : flex;
+        align-items : center;
+        position : relative;
+        .multiple-question-label{
+            // position : relative;
+            top : 2px;
+            margin-right : 20px;
+            .multiple-question-mark{
+                color : rgb(95,99,103);
+            }
+        }
+        .multiple-question-input{
+            height : 100%;
+            width : 80%;
+            display : flex;
+            align-items: center;
+            padding : 10px 0;
+            outline : none;
+            border : none;
+            font-size : 16px;
+            border-bottom : 2px solid #fff;
+            transition : 0.3s ease-in-out;
+            &:hover{
+                border-bottom : 2px solid rgba(95,99,103, 0.3);
+            }
+            &:focus{
+                border-bottom : 2px solid $main-color;
+            }
+        }
+        .choice-delete-icon{
+            cursor : pointer;
+            color : rgb(95,99,103);
+            position : absolute;
+            right : 20px;
+        }
+    }
+}
