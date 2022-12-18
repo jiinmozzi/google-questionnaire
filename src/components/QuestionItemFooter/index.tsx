@@ -9,7 +9,7 @@ import React, { useEffect } from 'react';
 import { ExplanationItemType, QuestionItemType } from '../../types';
 import { Dispatch } from 'redux';
 import { RootState } from '../../store/slices';
-import { copyQuestion } from '../../store/slices/questionnaireSlice';
+import { copyQuestion, toggleRequired } from '../../store/slices/questionnaireSlice';
 import { connect, useDispatch } from 'react-redux';
 
 type QuestionItemFooterPropsType = {
@@ -18,25 +18,26 @@ type QuestionItemFooterPropsType = {
 
 const QuestionItemFooter = ({ questionData } : QuestionItemFooterPropsType) => {
     const dispatch = useDispatch();
-    const onChange = (e : React.SyntheticEvent) => {
-        
+    const onToggleRequired = (e : React.SyntheticEvent) => {
+        dispatch(toggleRequired({id : questionData.id}));
     }
-    const onCopy = (e : React.MouseEvent) => {
+    const copyQuestionItem = (e : React.MouseEvent) => {
         dispatch(copyQuestion({id : questionData.id}));
     }
+
     return (
         <div className="question-item-footer">
             <div id="question-control-icon-wrapper">
                 <div className="footer-icon-wrapper">
-                    <ContentCopyIcon className="footer-icon" onClick={onCopy}/>
+                    <ContentCopyIcon className="footer-icon" onClick={copyQuestionItem}/>
                 </div>
                 <div className="footer-icon-wrapper">
-                    <DeleteSweepRoundedIcon className="footer-icon"/>
+                    <DeleteSweepRoundedIcon className="footer-icon" onClick={() => {}}/>
                 </div>
             </div>
             <FormControlLabel 
                 control={<Switch />} 
-                onChange={onChange}
+                onChange={onToggleRequired}
                 label="필수"
                 labelPlacement='start' 
             />
@@ -48,6 +49,8 @@ const QuestionItemFooter = ({ questionData } : QuestionItemFooterPropsType) => {
 const mapDispatchToProps = (dispatch : Dispatch) => {
     return {
         copyQuesiton : (id : number) => dispatch(copyQuestion(id)),
+        // deleteQuestion : (id : number) => dispatch(deleteQuestion(id)), 
+        toggleRequired : (id : number) => dispatch(toggleRequired(id)), 
     }
 }
 

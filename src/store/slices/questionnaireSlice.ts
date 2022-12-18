@@ -27,17 +27,22 @@ const questionnaireSlice = createSlice({
         },
         copyQuestion : (state, action) => {
             const {id} = action.payload;
-            console.log(id);
-            console.log(state.questions)
             const copyingItemIdx = state.questions.findIndex((item : QuestionItemType | ExplanationItemType) => item.id === Number(id));
-            console.log(copyingItemIdx)
             const prev = state.questions.slice(0, copyingItemIdx + 1);
-            const copiedItem = {...state.questions[copyingItemIdx]};
+            const copiedItem = {...state.questions[copyingItemIdx], id : Date.now()};
             const next = state.questions.slice(copyingItemIdx + 1);
-            console.log(prev);
-            console.log(copiedItem) 
-            console.log(next);
+            
             state.questions = [...prev, copiedItem, ...next];
+            state.questions[copyingItemIdx].isFocused = false;
+            state.focusedId = copiedItem.id;
+        },
+        
+        toggleRequired : (state, action) => {
+            const {id} = action.payload;
+            const item = state.questions.find((item : QuestionItemType | ExplanationItemType) => item.id === Number(id));
+            if (!item) return;
+            item.isRequired = !item.isRequired;
+            
         }
     }
 })
@@ -45,5 +50,6 @@ const questionnaireSlice = createSlice({
 export const {
     createInitialQuestionnaire,
     copyQuestion,
+    toggleRequired,
 } = questionnaireSlice.actions;
 export default questionnaireSlice.reducer;
