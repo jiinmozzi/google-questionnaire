@@ -14,7 +14,7 @@ type HeaderPropsType = {
 const Header = ({ questionnaire } : HeaderPropsType) => {
     const dispatch = useDispatch();
     const [titleFocused, setTitleFocused] = useState<boolean>(false);
-    
+    const [explanationFocused, setExplanationFocused] = useState<boolean>(false);
     const onUpdateHeaderTitle = (e : React.ChangeEvent) => {
         const target = e.target as HTMLInputElement;
         dispatch(updateHeaderTitle({ value : target.value }))
@@ -46,9 +46,13 @@ const Header = ({ questionnaire } : HeaderPropsType) => {
                     <input 
                         className="header-input" 
                         id="header-explanation" 
-                        type="text" 
+                        type="text"
+                        onBlur={() => setExplanationFocused(false)} 
+                        onFocus={() => setExplanationFocused(true)}
                         onChange={onUpdateHeaderExplanation}
-                        placeholder="설문지 설명" />
+                        placeholder="설문지 설명" 
+                    />
+                    {explanationFocused && <FontStyleSelector />}
                 </div>
             </div>
         </div>

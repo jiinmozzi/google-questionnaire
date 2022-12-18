@@ -1,0 +1,55 @@
+$main-color : rgb(103,58,182);
+$focus-color : rgb(66,132,243);
+$gray-color : rgb(95,99,103);
+.explanation-item-wrapper{
+    width : 768px;
+    margin : 0 auto;
+    margin-top : 20px;
+    border-radius : 8px;
+    display : flex;
+    flex-direction : column;
+    box-shadow : 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    background-color : #fff;
+    position : relative;
+
+    #explanation-item-focused{
+        width : 6px;
+        height : 100%;
+        border-bottom-left-radius : 8px;
+        border-top-left-radius : 8px;
+        position : absolute;
+        background-color : $focus-color;
+    }
+    #explanation-item-content{
+        display : flex;
+        width : 100%;
+        #explanation-item-input-wrapper{
+            width : 100%;
+            padding : 0 24px;
+            .explanation-item-input{
+                position : relative;
+                outline : none;
+                border : none;
+                border-bottom : 1px solid rgba(95,99,103, 0.3); 
+                width : 100%;
+                padding-bottom : 8px;
+                transition : border-bottom 0.3s ease-in-out;
+               
+                &:focus{
+                    border-bottom : 2px solid $main-color;
+                }
+            }
+            #explanation-item-title{
+                font-size : 32px;
+                margin-top : 24px;
+                margin-bottom : 12px;
+                
+            }
+            #explanation-item-explanation{
+                font-size : 15px;
+                margin-bottom : 24px;
+                padding-bottom : 3px;
+            }
+        }
+    }
+}
