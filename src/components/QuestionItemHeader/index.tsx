@@ -19,18 +19,17 @@ const QuestionItemHeader = ({ questionData } : QuestionItemHeaderPropsType ) => 
         const target = e.target as HTMLInputElement;
         dispatch(updateQuestionText({id : questionData.id, value : target.value}));
     }
-    
+
     return (
         <div className="question-item-header-wrapper">
             <div className="question-title-wrapper">
                 <input 
                     type="text" 
                     className="question-title-input" 
-                    placeholder="질문" 
+                    placeholder="질문"
                     onFocus={() => setFocused(true)} 
                     onBlur={() => setFocused(false)}
                     onChange={onUpdateQuestionText}
-                    value={ (questionData as QuestionItemType).question }
                     
                     />
             </div>
@@ -43,7 +42,6 @@ const QuestionItemHeader = ({ questionData } : QuestionItemHeaderPropsType ) => 
 const mapDispatchToProps = (dispatch : Dispatch) => {
     return {
         updateQuestionText : (id : number, value : string) => dispatch(updateQuestionText({id, value})),
-        // createQuestion : () => dispatch(createQuestion),
     }
 }
 
