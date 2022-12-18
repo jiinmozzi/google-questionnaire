@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Dispatch } from 'redux';
 import { Theme, useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,6 +15,9 @@ import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import "./QuestionTypeDropDown.scss";
 import { ExplanationItemType, QuestionItemType } from '../../types';
 import { CHECKBOX, DROPDOWN, LONG, MULTIPLE, SHORT } from '../../constants';
+import { RootState } from '../../store/slices';
+import { connect, useDispatch } from 'react-redux';
+import { updateQuestionType } from '../../store/slices/questionnaireSlice';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -23,16 +27,36 @@ type QuestionTypeDropDownPropsType = {
 }
 
 const QuestionTypeDropDown = ({ questionData } : QuestionTypeDropDownPropsType) => {
+  const dispatch = useDispatch();
   const [questionType, setQuestionType] = useState<string>("");
 
   const handleChange = (e : SelectChangeEvent<string>) => {
     setQuestionType(e.target.value);
+    switch (e.target.value){
+      case `✏️ 단답형`:
+        dispatch(updateQuestionType({ id : questionData.id, type : SHORT}));
+        break;
+      case "✏️ 장문형":
+        dispatch(updateQuestionType({ id : questionData.id, type : LONG}));
+        break;
+      case "🎲 객관식 질문":
+        dispatch(updateQuestionType({ id : questionData.id, type : MULTIPLE}));
+        break;
+      case "📍 체크박스":
+        dispatch(updateQuestionType({ id : questionData.id, type : CHECKBOX}));
+        break;
+      case "📁 드롭다운":
+        dispatch(updateQuestionType({ id : questionData.id, type : DROPDOWN}));
+        break;
+      default:
+        break;
+    }
   }
 
   useEffect(() => {
     switch (questionData.type){
       case SHORT:
-        setQuestionType(`✏️ 단답형`);
+        setQuestionType("✏️ 단답형");
         break;
       case LONG:
         setQuestionType("✏️ 장문형");
@@ -49,7 +73,9 @@ const QuestionTypeDropDown = ({ questionData } : QuestionTypeDropDownPropsType) 
       default:
         setQuestionType("");
         break;
-    }}, [questionData])
+    }
+  }, [questionData]);
+  
   return (
     <div className="question-type-dropdown-wrapper">
       <FormControl className="quesiton-type-form" sx={{  width: 240 }}>
@@ -58,6 +84,7 @@ const QuestionTypeDropDown = ({ questionData } : QuestionTypeDropDownPropsType) 
           variant='standard'
           displayEmpty
           value={questionType}
+          
           onChange={handleChange}
           input={<OutlinedInput />}
           renderValue={(selected) => {
@@ -96,4 +123,16 @@ const QuestionTypeDropDown = ({ questionData } : QuestionTypeDropDownPropsType) 
     </div>
   );
 }
-export default QuestionTypeDropDown;
+
+const mapDispatchToProps = ( dispatch : Dispatch ) => {
+  return {
+    upedateQuestionData : (id : number, type : string) => dispatch(updateQuestionType({id, type})),
+  }
+}
+
+const mapStateToProps = ( state : RootState ) => {
+  return {
+    questionnaire : state.questionnaireState,
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionTypeDropDown);
