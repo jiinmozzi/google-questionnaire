@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Dispatch } from "redux";
 import { RootState } from "../../store/slices";
-import { updateHeaderExplanation, updateHeaderTitle } from "../../store/slices/questionnaireSlice";
+import { updateFocus, updateHeaderExplanation, updateHeaderTitle } from "../../store/slices/questionnaireSlice";
 import { Questionnaire } from "../../types";
 import FontStyleSelector from "../FontStyleSelector";
 import "./Header.scss";
@@ -24,12 +24,15 @@ const Header = ({ questionnaire } : HeaderPropsType) => {
         const target = e.target as HTMLInputElement;
         dispatch(updateHeaderExplanation({ value : target.value}))
     }
-
+    const onUpdateFocus = (e : React.MouseEvent) => {
+        dispatch(updateFocus({ id : -1 }));
+    }
     return (
-        <div id="header-wrapper">
+        <div id="header-wrapper" onMouseDown={onUpdateFocus}>
             <div id="header-belt"></div>
-            <div id="header-focused">
-            </div>
+            { questionnaire.focusedId === -1 && <div id="header-focused"></div>}
+            { questionnaire.focusedId === -1 && <div id="header-unfocused"></div>}
+            
             <div id="header-content">
                 <div id="header-input-wrapper">
                     <input 
@@ -63,6 +66,7 @@ const mapDispatchToProps = (dispatch : Dispatch) => {
     return {
         updateHeaderTitle : (value : string) => dispatch(updateHeaderTitle(value)),
         updateHeaderExplanation : (value : string) => dispatch(updateHeaderExplanation(value)),
+        updateFocus : (id : number) => dispatch(updateFocus(id)),
     }
 }
 

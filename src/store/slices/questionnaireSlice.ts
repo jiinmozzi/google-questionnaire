@@ -7,7 +7,7 @@ const initialQuestionnaireState : Questionnaire = {
         explanation : ""
     },
     questions : [],
-    focusedId : Date.now(),
+    focusedId : -1,
 }
 
 const questionnaireSlice = createSlice({
@@ -22,8 +22,9 @@ const questionnaireSlice = createSlice({
                 isFocused : true,
                 options : null,
                 answer : "",
-                id : initialQuestionnaireState.focusedId,
+                id : Date.now(),
             };
+            state.focusedId = -1;
             state.questions = [initialQuestionItem];
         },
         copyQuestion : (state, action) => {
@@ -42,8 +43,10 @@ const questionnaireSlice = createSlice({
             const deletedItemIdx = state.questions.findIndex((item : QuestionItemType | ExplanationItemType) => item.id === Number(id));
             if (deletedItemIdx !== 0){
                 state.questions[deletedItemIdx - 1].isFocused = true;
+                state.focusedId = state.questions[deletedItemIdx-1].id;
             }   else if (state.questions.length > 0){
                 state.questions[1].isFocused = true;
+                state.focusedId = state.questions[1].id;
             }   else;
             state.questions = state.questions.filter((item : QuestionItemType | ExplanationItemType) => item.id !== id);
             
@@ -91,6 +94,7 @@ const questionnaireSlice = createSlice({
                 answer : "",
                 id : Date.now(),
             }
+            state.focusedId = newQuestion.id;
             const next = state.questions.slice(currentFocusedItemIdx + 1);
             state.questions = [...prev, newQuestion, ...next];
             
@@ -110,6 +114,8 @@ const questionnaireSlice = createSlice({
                 isFocused : true,
                 id : Date.now(),
             }
+            state.focusedId = newQuestion.id;
+
             const next = state.questions.slice(currentFocusedItemIdx + 1);
             state.questions = [...prev, newQuestion, ...next];
             if (currentFocusedItemIdx !== -1){
@@ -141,6 +147,10 @@ const questionnaireSlice = createSlice({
             const item = state.questions.find((item : QuestionItemType | ExplanationItemType) => item.id === Number(id)) as ExplanationItemType;
             item.explanation = value;
         },
+        updateFocus : (state, action) => {
+            const {id} = action.payload;
+            state.focusedId = id;
+        }
     }
 })
 
@@ -159,5 +169,6 @@ export const {
     updateHeaderExplanation,
     updateExplanationTitle,
     updateExplanationContent,
+    updateFocus
 } = questionnaireSlice.actions;
 export default questionnaireSlice.reducer;

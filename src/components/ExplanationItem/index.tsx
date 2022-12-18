@@ -1,17 +1,18 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Dispatch } from "redux";
 import { RootState } from "../../store/slices";
-import { updateExplanationContent, updateExplanationTitle } from "../../store/slices/questionnaireSlice";
-import { ExplanationItemType, QuestionItemType } from "../../types";
+import { updateExplanationContent, updateExplanationTitle, updateFocus } from "../../store/slices/questionnaireSlice";
+import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
 import FontStyleSelector from "../FontStyleSelector";
 import "./ExplanationItem.scss";
 
 type ExplanationItemPropsType = {
     questionData : QuestionItemType | ExplanationItemType,
+    questionnaire : Questionnaire
 }
 
-const ExplanationItem = ({ questionData } : ExplanationItemPropsType) => {
+const ExplanationItem = ({ questionnaire, questionData } : ExplanationItemPropsType) => {
     const dispatch = useDispatch();
     const [titleFocused, setTitleFocused] = useState<boolean>(false);
     const [explanationFocused, setExplanationFocused] = useState<boolean>(false);
@@ -25,10 +26,13 @@ const ExplanationItem = ({ questionData } : ExplanationItemPropsType) => {
         dispatch(updateExplanationContent({ value : target.value, id : questionData.id }));
     }
 
+    const onUpdateFocus = ( e : React.MouseEvent ) => {
+        dispatch(updateFocus({id : questionData.id}));
+    }
+
     return (
-        <div className="explanation-item-wrapper">
-            <div id="explanation-item-focused">
-            </div>
+        <div className="explanation-item-wrapper" onClick={onUpdateFocus}>
+            { questionnaire.focusedId === questionData.id &&  <div id="explanation-item-focused"></div>}
             <div id="explanation-item-content">
                 <div id="explanation-item-input-wrapper">
                     <input 
@@ -62,6 +66,7 @@ const mapDispatchToProps = (dispatch : Dispatch) => {
     return {
         updateExplanationTitle : (value : string, id : number) => dispatch(updateExplanationTitle({value, id})),
         updateExplanationContent : (value : string, id : number) => dispatch(updateExplanationContent({value, id})),
+        updateFocus : (id : number) => dispatch(updateFocus(id)),
         // updateHeaderTitle : (value : string) => dispatch(updateHeaderTitle(value)),
         // updateHeaderExplanation : (value : string) => dispatch(updateHeaderExplanation(value)),
     }

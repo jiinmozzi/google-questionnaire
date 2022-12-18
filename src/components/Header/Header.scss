@@ -28,6 +28,14 @@ $gray-color : rgb(95,99,103);
         position : absolute;
         background-color : $focus-color;
     }
+    #header-unfocused{
+        width : 6px;
+        height : calc(100%);
+        border-top-left-radius : 8px;
+        border-bottom-left-radius : 8px;
+        position : absolute;
+        background-color : $focus-color;
+    }
     #header-content{
         display : flex;
         width : 100%;
