@@ -81,7 +81,16 @@ const questionnaireSlice = createSlice({
             }
             const next = state.questions.slice(currentFocusedItemIdx + 1);
             state.questions = [...prev, newQuestion, ...next];
-            state.questions[currentFocusedItemIdx].isFocused = false;
+            
+            // if there is no focused item, i.e) length = 0
+            if (currentFocusedItemIdx !== -1){
+                state.questions[currentFocusedItemIdx].isFocused = false;
+            }
+        },
+        updateQuestionText : (state, action) => {
+            const {id, value} = action.payload;
+            const item = state.questions.find((item : QuestionItemType | ExplanationItemType) => item.id === Number(id)) as QuestionItemType;
+            item.question = value;
         }
     }
 })
@@ -95,5 +104,6 @@ export const {
     updateQuestionType,
     deleteOption,
     createQuestion,
+    updateQuestionText
 } = questionnaireSlice.actions;
 export default questionnaireSlice.reducer;
