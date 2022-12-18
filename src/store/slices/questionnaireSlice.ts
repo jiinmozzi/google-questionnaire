@@ -2,6 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import { CHECKBOX, DROPDOWN, EXPLANATION, LONG, MULTIPLE, SHORT } from "../../constants";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
 const initialQuestionnaireState : Questionnaire = {
+    header : {
+        title : "제목 없는 설문지",
+        explanation : ""
+    },
     questions : [],
     focusedId : Date.now(),
 }
@@ -10,7 +14,7 @@ const questionnaireSlice = createSlice({
     name : "questionnaire",
     initialState : initialQuestionnaireState,
     reducers : {
-        createInitialQuestionnaire : (state) => {
+        createInitialQuestion : (state) => {
             const initialQuestionItem : QuestionItemType = {
                 type : "short",
                 question : "",
@@ -91,12 +95,23 @@ const questionnaireSlice = createSlice({
             const {id, value} = action.payload;
             const item = state.questions.find((item : QuestionItemType | ExplanationItemType) => item.id === Number(id)) as QuestionItemType;
             item.question = value;
+        },
+        updateHeaderTitle : (state, action) => {
+            const {value} = action.payload;
+            console.log(value);
+            state.header.title = value;
+        },
+        updateHeaderExplanation : (state, action) => {
+            const {value} = action.payload;
+            
+            state.header.explanation = value;
         }
+
     }
 })
 
 export const {
-    createInitialQuestionnaire,
+    createInitialQuestion,
     copyQuestion,
     deleteQuestion,
     toggleRequired,
@@ -104,6 +119,8 @@ export const {
     updateQuestionType,
     deleteOption,
     createQuestion,
-    updateQuestionText
+    updateQuestionText,
+    updateHeaderTitle,
+    updateHeaderExplanation,
 } = questionnaireSlice.actions;
 export default questionnaireSlice.reducer;
