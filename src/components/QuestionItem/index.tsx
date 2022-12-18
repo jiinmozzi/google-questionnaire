@@ -32,19 +32,21 @@ const QuestionItem = ({ questionnaire, children } : QuestionItemPropsType) => {
         setQuestionData(children.props.questionData);
     }, [children]) 
     
-    const onUpdateFocus = (e : React.MouseEvent) => {
+    const onUpdateFocus = (e : React.FocusEvent) => {
         dispatch(updateFocus({id : questionData.id}));
     }
-    
+    const onClickUpdateFocus = ( e : React.MouseEvent ) => {
+        dispatch(updateFocus({id : questionData.id}));
+    }
     return (
-        <div className="question-item-wrapper" onMouseDown={onUpdateFocus}>
+        <form className="question-item-wrapper" onFocus={onUpdateFocus} onMouseDown={onClickUpdateFocus}>
             { questionnaire.focusedId === questionData.id && <div className="question-item-focused"></div>}
             <form className="question-item-content">
                 <QuestionItemHeader questionData={ questionData }/>
                 {children}
                 <QuestionItemFooter questionData={ questionData }/>
             </form>
-        </div>
+        </form>
     )
 }
 

@@ -24,11 +24,16 @@ const Header = ({ questionnaire } : HeaderPropsType) => {
         const target = e.target as HTMLInputElement;
         dispatch(updateHeaderExplanation({ value : target.value}))
     }
-    const onUpdateFocus = (e : React.MouseEvent) => {
+    const onUpdateFocus = (e : React.FocusEvent) => {
         dispatch(updateFocus({ id : -1 }));
     }
+
+    const onClickUpdateFocus = ( e : React.MouseEvent ) => {
+        dispatch(updateFocus({id : -1}));
+    }
+    
     return (
-        <div id="header-wrapper" onMouseDown={onUpdateFocus}>
+        <form id="header-wrapper" onFocus={onUpdateFocus} onMouseDown={onClickUpdateFocus}>
             <div id="header-belt"></div>
             { questionnaire.focusedId === -1 && <div id="header-focused"></div>}
             { questionnaire.focusedId === -1 && <div id="header-unfocused"></div>}
@@ -58,7 +63,7 @@ const Header = ({ questionnaire } : HeaderPropsType) => {
                     {explanationFocused && <FontStyleSelector />}
                 </div>
             </div>
-        </div>
+        </form>
     )
 }
 

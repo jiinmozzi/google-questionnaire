@@ -26,12 +26,16 @@ const ExplanationItem = ({ questionnaire, questionData } : ExplanationItemPropsT
         dispatch(updateExplanationContent({ value : target.value, id : questionData.id }));
     }
 
-    const onUpdateFocus = ( e : React.MouseEvent ) => {
+    const onUpdateFocus = ( e : React.FocusEvent ) => {
         dispatch(updateFocus({id : questionData.id}));
     }
 
+    const onClickUpdateFocus = ( e : React.MouseEvent ) => {
+        dispatch(updateFocus({id : -1}));
+    }
+    
     return (
-        <div className="explanation-item-wrapper" onClick={onUpdateFocus}>
+        <form className="explanation-item-wrapper" onFocus={onUpdateFocus} onMouseDown={onClickUpdateFocus}>
             { questionnaire.focusedId === questionData.id &&  <div id="explanation-item-focused"></div>}
             <div id="explanation-item-content">
                 <div id="explanation-item-input-wrapper">
@@ -58,7 +62,7 @@ const ExplanationItem = ({ questionnaire, questionData } : ExplanationItemPropsT
                     {explanationFocused && <FontStyleSelector />}
                 </div>
             </div>
-        </div>
+        </form>
     )
 }
 
