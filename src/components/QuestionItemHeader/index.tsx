@@ -1,9 +1,14 @@
 import QuestionTypeDropDown from "../QuestionTypeDropDown";
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import "./QuestionItemHeader.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { ExplanationItemType, QuestionItemType } from "../../types";
 
-const QuestionItemHeader = () => {
+type QuestionItemHeaderPropsType = {
+    questionData : QuestionItemType | ExplanationItemType,
+}
+
+const QuestionItemHeader = ({ questionData } : QuestionItemHeaderPropsType ) => {
     const [focused, setFocused] = useState<boolean>(false); 
     return (
         <div className="question-item-header-wrapper">
@@ -13,11 +18,12 @@ const QuestionItemHeader = () => {
                     className="question-title-input" 
                     placeholder="질문" 
                     onFocus={() => setFocused(true)} 
-                    onBlur={() => setFocused(false)}/>
-                    
+                    onBlur={() => setFocused(false)}
+                    value={ (questionData as QuestionItemType).question }
+                    />
             </div>
             <InsertPhotoOutlinedIcon className="photo-disabled"/>
-            <QuestionTypeDropDown />
+            <QuestionTypeDropDown questionData={questionData}/>
         </div>
     )
 }
