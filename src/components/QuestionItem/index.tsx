@@ -41,11 +41,11 @@ const QuestionItem = ({ questionnaire, children } : QuestionItemPropsType) => {
     return (
         <form className="question-item-wrapper" onFocus={onUpdateFocus} onMouseDown={onClickUpdateFocus}>
             { questionnaire.focusedId === questionData.id && <div className="question-item-focused"></div>}
-            <form className="question-item-content">
+            <div className="question-item-content">
                 <QuestionItemHeader questionData={ questionData }/>
                 {children}
                 <QuestionItemFooter questionData={ questionData }/>
-            </form>
+            </div>
         </form>
     )
 }
