@@ -11,7 +11,7 @@ import { Dispatch } from 'redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../store/slices';
 import { connect, useDispatch } from 'react-redux';
-import { createQuestion } from '../../store/slices/questionnaireSlice';
+import { createExplanation, createQuestion } from '../../store/slices/questionnaireSlice';
 const SideBar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -22,6 +22,9 @@ const SideBar = () => {
     
     const onCreateQuestion = (e : React.MouseEvent) => {
         dispatch(createQuestion());
+    }
+    const onCreateExplanation = ( e : React.MouseEvent ) => {
+        dispatch(createExplanation());
     }
     return (
         <div id="side-bar-wrapper">
@@ -36,8 +39,9 @@ const SideBar = () => {
             <div className="side-bar-icon-wrapper" 
                 onMouseOver={() => setShowCreateQuestionToolTip(true)} 
                 onMouseLeave={() => setShowCreateQuestionToolTip(false)}
+                onClick={onCreateQuestion}
             >
-                <AddCircleOutlineRoundedIcon className="side-bar-icons" onClick={onCreateQuestion}/>
+                <AddCircleOutlineRoundedIcon className="side-bar-icons"/>
                 { showCreateQuestionToolTip && <span className="tooltip">질문 추가</span> }
             </div>
             <div className="side-bar-deactivated-icon-wrapper">
@@ -46,6 +50,7 @@ const SideBar = () => {
             <div className="side-bar-icon-wrapper" 
                 onMouseOver={() => setShowAddTitleToolTip(true)} 
                 onMouseLeave={() => setShowAddTitleToolTip(false)}
+                onClick={onCreateExplanation}
             >
                 <TextFieldsOutlinedIcon className="side-bar-icons" />
                 { showAddTitleToolTip && <span className="tooltip">제목 및 설명 추가</span> }
@@ -67,6 +72,7 @@ const SideBar = () => {
 const mapDispatchToProps = (dispatch : Dispatch) => {
     return {
         createQuestion : () => dispatch(createQuestion),
+        createExplanation : () => dispatch(createExplanation),
     }
 }
 
