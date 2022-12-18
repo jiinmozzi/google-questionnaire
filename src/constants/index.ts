@@ -1,6 +1,6 @@
-export const SHORT = 'short' as string;
-export const LONG = 'long' as string;
-export const DROPDOWN = 'dropdown' as string;
-export const CHECKBOX = 'checkbox' as string;
-export const MULTIPLE = 'multiple' as string;
-export const EXPLANATION = 'explanation' as string;
+export const SHORT = 'short' as const;
+export const LONG = 'long' as const;
+export const DROPDOWN = 'dropdown' as const;
+export const CHECKBOX = 'checkbox' as const;
+export const MULTIPLE = 'multiple' as const;
+export const EXPLANATION = 'explanation' as const;
