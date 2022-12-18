@@ -30,7 +30,7 @@ const QuestionItemHeader = ({ questionData } : QuestionItemHeaderPropsType ) => 
                     onFocus={() => setFocused(true)} 
                     onBlur={() => setFocused(false)}
                     onChange={onUpdateQuestionText}
-                    
+                    value={(questionData as QuestionItemType).question}
                     />
             </div>
             <InsertPhotoOutlinedIcon className="photo-disabled"/>
