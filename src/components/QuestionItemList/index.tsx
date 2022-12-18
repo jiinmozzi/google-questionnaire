@@ -12,6 +12,7 @@ import DropDownQuestion from "../QuestionItem/DropDownQuestion";
 import { createInitialQuestionnaire } from "../../store/slices/questionnaireSlice";
 import QuestionItem from "../QuestionItem";
 import { CHECKBOX, DROPDOWN, EXPLANATION, LONG, MULTIPLE, SHORT } from "../../constants";
+import ExplanationItem from "../ExplanationItem";
 
 type QuestionnaireItemListType = {
     questionnaire : Questionnaire
@@ -21,14 +22,15 @@ const QuestionItemList = ({ questionnaire } : QuestionnaireItemListType) => {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(createInitialQuestionnaire());
-    }, [])
+    }, [dispatch])
 
     return (
         <div id="question-item-list-wrapper">
             {questionnaire.questions.map((question : QuestionItemType | ExplanationItemType) => {
+                
                 switch(question.type){
                     case EXPLANATION:
-                        return;
+                        return <ExplanationItem questionData={question}/>;
                     case SHORT:
                         return <QuestionItem children={ <ShortQuestion questionData={question} /> }/>
                     case LONG:
@@ -40,6 +42,8 @@ const QuestionItemList = ({ questionnaire } : QuestionnaireItemListType) => {
                     case DROPDOWN:
                         return <QuestionItem children={ <DropDownQuestion questionData={question} /> }/>
                 }
+                return null;
+                
             })}
             
         </div>
