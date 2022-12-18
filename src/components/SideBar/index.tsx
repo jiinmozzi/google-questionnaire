@@ -6,15 +6,23 @@ import DriveFileMoveOutlinedIcon from '@mui/icons-material/DriveFileMoveOutlined
 import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import "./SideBar.scss";
-import { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
+import { Dispatch } from 'redux';
 import { useNavigate } from 'react-router-dom';
+import { RootState } from '../../store/slices';
+import { connect, useDispatch } from 'react-redux';
+import { createQuestion } from '../../store/slices/questionnaireSlice';
 const SideBar = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [showPreviewToolTip, setShowPreviewToolTip] = useState<boolean>(false);
     const [showCreateQuestionToolTip, setShowCreateQuestionToolTip] = useState<boolean>(false);
     const [showAddTitleToolTip, setShowAddTitleToolTip] = useState<boolean>(false);
     const [sideBarPosition, setSideBarPosition] = useState<number>(0);
     
+    const onCreateQuestion = (e : React.MouseEvent) => {
+        dispatch(createQuestion());
+    }
     return (
         <div id="side-bar-wrapper">
             <div className="side-bar-icon-wrapper" 
@@ -29,7 +37,7 @@ const SideBar = () => {
                 onMouseOver={() => setShowCreateQuestionToolTip(true)} 
                 onMouseLeave={() => setShowCreateQuestionToolTip(false)}
             >
-                <AddCircleOutlineRoundedIcon className="side-bar-icons" />
+                <AddCircleOutlineRoundedIcon className="side-bar-icons" onClick={onCreateQuestion}/>
                 { showCreateQuestionToolTip && <span className="tooltip">질문 추가</span> }
             </div>
             <div className="side-bar-deactivated-icon-wrapper">
@@ -56,4 +64,16 @@ const SideBar = () => {
     )
 }
 
-export default SideBar;
+const mapDispatchToProps = (dispatch : Dispatch) => {
+    return {
+        createQuestion : () => dispatch(createQuestion),
+    }
+}
+
+const mapStateToProps = ( state : RootState ) => {
+    return {
+        questionnaire : state.questionnaireState,
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

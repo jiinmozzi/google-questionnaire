@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CHECKBOX, DROPDOWN, EXPLANATION, MULTIPLE } from "../../constants";
+import { CHECKBOX, DROPDOWN, EXPLANATION, LONG, MULTIPLE, SHORT } from "../../constants";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
 const initialQuestionnaireState : Questionnaire = {
     questions : [],
@@ -66,6 +66,22 @@ const questionnaireSlice = createSlice({
             }   else {
                 item.options = null;
             }
+        },
+        createQuestion : (state) => {
+            const currentFocusedItemIdx = state.questions.findIndex((item : QuestionItemType | ExplanationItemType) => item.isFocused === true);
+            const prev = state.questions.slice(0, currentFocusedItemIdx + 1);
+            const newQuestion : QuestionItemType = {
+                type : SHORT,
+                question : "",
+                isRequired : false,
+                isFocused : true,
+                options : null,
+                answer : "",
+                id : Date.now(),
+            }
+            const next = state.questions.slice(currentFocusedItemIdx + 1);
+            state.questions = [...prev, newQuestion, ...next];
+            state.questions[currentFocusedItemIdx].isFocused = false;
         }
     }
 })
@@ -78,5 +94,6 @@ export const {
     addOption,
     updateQuestionType,
     deleteOption,
+    createQuestion,
 } = questionnaireSlice.actions;
 export default questionnaireSlice.reducer;
