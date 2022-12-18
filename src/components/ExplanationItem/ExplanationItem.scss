@@ -22,10 +22,41 @@ $gray-color : rgb(95,99,103);
     }
     #explanation-item-content{
         display : flex;
+        flex-direction : column;
         width : 100%;
-        #explanation-item-input-wrapper{
-            width : 100%;
+        .explanation-item-input-wrapper{
+            width : 70%;
             padding : 0 24px;
+            position : relative;
+            #explanation-item-input-icons-wrapper{
+                position : absolute;
+                display : flex;
+                gap : 20px;
+                top : 16px;
+                right : -180px;
+                #deactivated-icon{
+                    cursor : not-allowed;
+                    &:hover{
+                        background-color : #fff;
+                    }
+                }
+                .explanation-item-input-icon{
+                    width : 40px;
+                    height : 40px;
+                    border-radius : 50%;
+                    display : flex;
+                    justify-content: center;
+                    align-items: center;
+                    .explanation-item-input-icons{
+                        font-size : 26px;
+                        color : $gray-color;
+                    }
+                    &:hover{
+                        background-color : rgba(0,0,0,0.1);
+                        cursor : pointer;
+                    }
+                }
+            }
             .explanation-item-input{
                 position : relative;
                 outline : none;
@@ -40,7 +71,7 @@ $gray-color : rgb(95,99,103);
                 }
             }
             #explanation-item-title{
-                font-size : 32px;
+                font-size : 24px;
                 margin-top : 24px;
                 margin-bottom : 12px;
                 

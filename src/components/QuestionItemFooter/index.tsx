@@ -31,16 +31,17 @@ const QuestionItemFooter = ({ questionData } : QuestionItemFooterPropsType) => {
     return (
         <div className="question-item-footer">
             <div id="question-control-icon-wrapper">
-                <div className="footer-icon-wrapper">
-                    <ContentCopyIcon className="footer-icon" onClick={copyQuestionItem}/>
+                <div className="footer-icon-wrapper" onClick={copyQuestionItem}>
+                    <ContentCopyIcon className="footer-icon"/>
                 </div>
-                <div className="footer-icon-wrapper">
-                    <DeleteSweepRoundedIcon className="footer-icon" onClick={deleteQuestionItem}/>
+                <div className="footer-icon-wrapper" onClick={deleteQuestionItem}>
+                    <DeleteSweepRoundedIcon className="footer-icon"/>
                 </div>
             </div>
             <FormControlLabel 
                 control={<Switch />} 
                 onChange={onToggleRequired}
+                checked={questionData.isRequired}
                 label="필수"
                 labelPlacement='start' 
             />
