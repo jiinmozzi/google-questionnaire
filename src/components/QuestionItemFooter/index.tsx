@@ -9,7 +9,7 @@ import React, { useEffect } from 'react';
 import { ExplanationItemType, QuestionItemType } from '../../types';
 import { Dispatch } from 'redux';
 import { RootState } from '../../store/slices';
-import { copyQuestion, toggleRequired } from '../../store/slices/questionnaireSlice';
+import { copyQuestion, deleteQuestion, toggleRequired } from '../../store/slices/questionnaireSlice';
 import { connect, useDispatch } from 'react-redux';
 
 type QuestionItemFooterPropsType = {
@@ -24,6 +24,9 @@ const QuestionItemFooter = ({ questionData } : QuestionItemFooterPropsType) => {
     const copyQuestionItem = (e : React.MouseEvent) => {
         dispatch(copyQuestion({id : questionData.id}));
     }
+    const deleteQuestionItem = (e : React.MouseEvent) => {
+        dispatch(deleteQuestion({id : questionData.id}))
+    }
 
     return (
         <div className="question-item-footer">
@@ -32,7 +35,7 @@ const QuestionItemFooter = ({ questionData } : QuestionItemFooterPropsType) => {
                     <ContentCopyIcon className="footer-icon" onClick={copyQuestionItem}/>
                 </div>
                 <div className="footer-icon-wrapper">
-                    <DeleteSweepRoundedIcon className="footer-icon" onClick={() => {}}/>
+                    <DeleteSweepRoundedIcon className="footer-icon" onClick={deleteQuestionItem}/>
                 </div>
             </div>
             <FormControlLabel 
@@ -49,8 +52,9 @@ const QuestionItemFooter = ({ questionData } : QuestionItemFooterPropsType) => {
 const mapDispatchToProps = (dispatch : Dispatch) => {
     return {
         copyQuesiton : (id : number) => dispatch(copyQuestion(id)),
-        // deleteQuestion : (id : number) => dispatch(deleteQuestion(id)), 
+        deleteQuestion : (id : number) => dispatch(deleteQuestion(id)), 
         toggleRequired : (id : number) => dispatch(toggleRequired(id)), 
+        
     }
 }
 

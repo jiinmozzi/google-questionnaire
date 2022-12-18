@@ -1,13 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { EXPLANATION } from "../../constants";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
-
-
 const initialQuestionnaireState : Questionnaire = {
     questions : [],
     focusedId : Date.now(),
 }
-
 
 const questionnaireSlice = createSlice({
     name : "questionnaire",
@@ -36,13 +33,15 @@ const questionnaireSlice = createSlice({
             state.questions[copyingItemIdx].isFocused = false;
             state.focusedId = copiedItem.id;
         },
-        
+        deleteQuestion : (state, action) => {
+            const {id} = action.payload;
+            state.questions = state.questions.filter((item : QuestionItemType | ExplanationItemType) => item.id !== id);
+        },
         toggleRequired : (state, action) => {
             const {id} = action.payload;
             const item = state.questions.find((item : QuestionItemType | ExplanationItemType) => item.id === Number(id));
             if (!item) return;
             item.isRequired = !item.isRequired;
-            
         }
     }
 })
@@ -50,6 +49,7 @@ const questionnaireSlice = createSlice({
 export const {
     createInitialQuestionnaire,
     copyQuestion,
+    deleteQuestion,
     toggleRequired,
 } = questionnaireSlice.actions;
 export default questionnaireSlice.reducer;
