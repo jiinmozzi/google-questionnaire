@@ -21,7 +21,6 @@ const QuestionItem = ({ questionnaire, children } : QuestionItemPropsType) => {
         type : "long",
         question : "",
         isRequired : false,
-        isFocused : false,
         options : [],
         answer : "",
         id : Date.now(),

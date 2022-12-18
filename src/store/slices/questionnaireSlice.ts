@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CHECKBOX, DROPDOWN, EXPLANATION, LONG, MULTIPLE, SHORT } from "../../constants";
+import { CHECKBOX, DROPDOWN, EXPLANATION, HEADER, LONG, MULTIPLE, SHORT } from "../../constants";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
 const initialQuestionnaireState : Questionnaire = {
     header : {
@@ -7,7 +7,7 @@ const initialQuestionnaireState : Questionnaire = {
         explanation : ""
     },
     questions : [],
-    focusedId : -1,
+    focusedId : HEADER,
 }
 
 const questionnaireSlice = createSlice({
@@ -19,37 +19,34 @@ const questionnaireSlice = createSlice({
                 type : "short",
                 question : "",
                 isRequired : false,
-                isFocused : true,
                 options : null,
                 answer : "",
                 id : Date.now(),
             };
-            state.focusedId = -1;
+            state.focusedId = HEADER;
             state.questions = [initialQuestionItem];
         },
         copyQuestion : (state, action) => {
             const {id} = action.payload;
-            const copyingItemIdx = state.questions.findIndex((item : QuestionItemType | ExplanationItemType) => item.id === Number(id));
+            const copyingItemIdx = state.questions.findIndex((item : QuestionItemType | ExplanationItemType) => item.id === id);
             const prev = state.questions.slice(0, copyingItemIdx + 1);
             const copiedItem = {...state.questions[copyingItemIdx], id : Date.now()};
             const next = state.questions.slice(copyingItemIdx + 1);
             
             state.questions = [...prev, copiedItem, ...next];
-            state.questions[copyingItemIdx].isFocused = false;
             state.focusedId = copiedItem.id;
         },
         deleteQuestion : (state, action) => {
             const {id} = action.payload;
-            const deletedItemIdx = state.questions.findIndex((item : QuestionItemType | ExplanationItemType) => item.id === Number(id));
-            if (deletedItemIdx !== 0){
-                state.questions[deletedItemIdx - 1].isFocused = true;
+            const deletedItemIdx = state.questions.findIndex((item : QuestionItemType | ExplanationItemType) => item.id === id);
+            if (deletedItemIdx > 0){
                 state.focusedId = state.questions[deletedItemIdx-1].id;
-            }   else if (state.questions.length > 0){
-                state.questions[1].isFocused = true;
+            }   else if (state.questions.length > 1){
                 state.focusedId = state.questions[1].id;
-            }   else;
+            }   else {
+                state.focusedId = HEADER;
+            };
             state.questions = state.questions.filter((item : QuestionItemType | ExplanationItemType) => item.id !== id);
-            
             
         },
         toggleRequired : (state, action) => {
@@ -83,13 +80,12 @@ const questionnaireSlice = createSlice({
             }
         },
         createQuestion : (state) => {
-            const currentFocusedItemIdx = state.questions.findIndex((item : QuestionItemType | ExplanationItemType) => item.isFocused === true);
+            const currentFocusedItemIdx = state.questions.findIndex((item : QuestionItemType | ExplanationItemType) => item.id === state.focusedId);
             const prev = state.questions.slice(0, currentFocusedItemIdx + 1);
             const newQuestion : QuestionItemType = {
                 type : SHORT,
                 question : "",
                 isRequired : false,
-                isFocused : true,
                 options : null,
                 answer : "",
                 id : Date.now(),
@@ -98,29 +94,22 @@ const questionnaireSlice = createSlice({
             const next = state.questions.slice(currentFocusedItemIdx + 1);
             state.questions = [...prev, newQuestion, ...next];
             
-            // if there is no focused item, i.e) length = 0
-            if (currentFocusedItemIdx !== -1){
-                state.questions[currentFocusedItemIdx].isFocused = false;
-            }
         },
         createExplanation : (state) => {
-            const currentFocusedItemIdx = state.questions.findIndex((item : QuestionItemType | ExplanationItemType) => item.isFocused === true);
+            const currentFocusedItemIdx = state.questions.findIndex((item : QuestionItemType | ExplanationItemType) => item.id === state.focusedId);
             const prev = state.questions.slice(0, currentFocusedItemIdx + 1);
             const newQuestion : ExplanationItemType = {
                 type : EXPLANATION,
                 title : "",
                 explanation : "",
                 isRequired : false,
-                isFocused : true,
                 id : Date.now(),
             }
             state.focusedId = newQuestion.id;
 
             const next = state.questions.slice(currentFocusedItemIdx + 1);
             state.questions = [...prev, newQuestion, ...next];
-            if (currentFocusedItemIdx !== -1){
-                state.questions[currentFocusedItemIdx].isFocused = false;
-            }
+            
         },
         updateQuestionText : (state, action) => {
             const {id, value} = action.payload;
@@ -134,7 +123,6 @@ const questionnaireSlice = createSlice({
         },
         updateHeaderExplanation : (state, action) => {
             const {value} = action.payload;
-            
             state.header.explanation = value;
         },
         updateExplanationTitle : (state, action) => {
