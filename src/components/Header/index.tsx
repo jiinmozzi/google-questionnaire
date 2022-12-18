@@ -26,7 +26,7 @@ const Header = ({ questionnaire } : HeaderPropsType) => {
         dispatch(updateHeaderExplanation({ value : target.value}))
     }
     const onUpdateFocus = (e : React.FocusEvent) => {
-        dispatch(updateFocus({ id : -1 }));
+        dispatch(updateFocus({ id : HEADER }));
     }
 
     const onClickUpdateFocus = ( e : React.MouseEvent ) => {
