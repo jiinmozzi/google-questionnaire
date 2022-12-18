@@ -80,7 +80,7 @@ const questionnaireSlice = createSlice({
             item.type = type;
             
             if ((type === MULTIPLE || type === CHECKBOX || type === DROPDOWN)){
-                item.options = item.options || [];
+                item.options = item.options || [""];
             }   else {
                 item.options = null;
             }
