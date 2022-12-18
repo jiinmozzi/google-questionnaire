@@ -39,7 +39,15 @@ const questionnaireSlice = createSlice({
         },
         deleteQuestion : (state, action) => {
             const {id} = action.payload;
+            const deletedItemIdx = state.questions.findIndex((item : QuestionItemType | ExplanationItemType) => item.id === Number(id));
+            if (deletedItemIdx !== 0){
+                state.questions[deletedItemIdx - 1].isFocused = true;
+            }   else if (state.questions.length > 0){
+                state.questions[1].isFocused = true;
+            }   else;
             state.questions = state.questions.filter((item : QuestionItemType | ExplanationItemType) => item.id !== id);
+            
+            
         },
         toggleRequired : (state, action) => {
             const {id} = action.payload;
@@ -91,6 +99,23 @@ const questionnaireSlice = createSlice({
                 state.questions[currentFocusedItemIdx].isFocused = false;
             }
         },
+        createExplanation : (state) => {
+            const currentFocusedItemIdx = state.questions.findIndex((item : QuestionItemType | ExplanationItemType) => item.isFocused === true);
+            const prev = state.questions.slice(0, currentFocusedItemIdx + 1);
+            const newQuestion : ExplanationItemType = {
+                type : EXPLANATION,
+                title : "",
+                explanation : "",
+                isRequired : false,
+                isFocused : true,
+                id : Date.now(),
+            }
+            const next = state.questions.slice(currentFocusedItemIdx + 1);
+            state.questions = [...prev, newQuestion, ...next];
+            if (currentFocusedItemIdx !== -1){
+                state.questions[currentFocusedItemIdx].isFocused = false;
+            }
+        },
         updateQuestionText : (state, action) => {
             const {id, value} = action.payload;
             const item = state.questions.find((item : QuestionItemType | ExplanationItemType) => item.id === Number(id)) as QuestionItemType;
@@ -105,8 +130,17 @@ const questionnaireSlice = createSlice({
             const {value} = action.payload;
             
             state.header.explanation = value;
-        }
-
+        },
+        updateExplanationTitle : (state, action) => {
+            const {id, value} = action.payload;
+            const item = state.questions.find((item : QuestionItemType | ExplanationItemType) => item.id === Number(id)) as ExplanationItemType;
+            item.title = value;   
+        },
+        updateExplanationContent : (state, action) => {
+            const {id, value} = action.payload;
+            const item = state.questions.find((item : QuestionItemType | ExplanationItemType) => item.id === Number(id)) as ExplanationItemType;
+            item.explanation = value;
+        },
     }
 })
 
@@ -119,8 +153,11 @@ export const {
     updateQuestionType,
     deleteOption,
     createQuestion,
+    createExplanation,
     updateQuestionText,
     updateHeaderTitle,
     updateHeaderExplanation,
+    updateExplanationTitle,
+    updateExplanationContent,
 } = questionnaireSlice.actions;
 export default questionnaireSlice.reducer;
