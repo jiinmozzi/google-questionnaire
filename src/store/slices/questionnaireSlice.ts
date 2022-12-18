@@ -61,6 +61,12 @@ const questionnaireSlice = createSlice({
             if (!item) return;
             if (item.options) item.options.push("");
         },
+        updateOption : (state, action) => {
+            const {idx, id, value} = action.payload;
+            const item = state.questions.find((item : QuestionItemType | ExplanationItemType) => item.id === Number(id)) as QuestionItemType;
+            if (!item) return;
+            if (item.options) item.options[idx] = value;
+        },
         deleteOption : (state, action) => {
             const {idx, id} = action.payload;
             const item = state.questions.find((item : QuestionItemType | ExplanationItemType) => item.id === Number(id)) as QuestionItemType;
@@ -157,6 +163,7 @@ export const {
     updateHeaderExplanation,
     updateExplanationTitle,
     updateExplanationContent,
-    updateFocus
+    updateFocus,
+    updateOption,
 } = questionnaireSlice.actions;
 export default questionnaireSlice.reducer;
