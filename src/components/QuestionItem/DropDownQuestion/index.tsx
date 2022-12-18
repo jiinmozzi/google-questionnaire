@@ -34,6 +34,9 @@ const DropDownQuestion = ({questionData} : DropDownQuestionPropsType) => {
     }
     return (
         <div className="dropdown-question-wrapper">
+            {((questionData as QuestionItemType).options as string[]).map((option : string) => {
+                return <DropDownQuestionChoice idx={1}/>    
+            })}
             <DropDownQuestionChoice idx={1}/>
             <DropDownQuestionChoice idx={2}/>
             <div className="dropdown-add-indicator">

@@ -36,6 +36,9 @@ const CheckBoxQuestion = ({ questionData } : CheckBoxQuestionPropsType ) => {
     }
     return (
         <div className="checkbox-question-wrapper">
+            {((questionData as QuestionItemType).options as string[]).map((option : string) => {
+                return <CheckBoxQuestionChoice idx={1}/>    
+            })}
             <CheckBoxQuestionChoice idx={1}/>
             <CheckBoxQuestionChoice idx={2}/>
             <div className="checkbox-add-indicator">

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CHECKBOX, EXPLANATION, MULTIPLE } from "../../constants";
+import { CHECKBOX, DROPDOWN, EXPLANATION, MULTIPLE } from "../../constants";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
 const initialQuestionnaireState : Questionnaire = {
     questions : [],
@@ -55,7 +55,7 @@ const questionnaireSlice = createSlice({
             if (!item) return;
             item.type = type;
             
-            if ((type === MULTIPLE || type === CHECKBOX || type === EXPLANATION)){
+            if ((type === MULTIPLE || type === CHECKBOX || type === DROPDOWN)){
                 item.options = item.options || [];
             }   else {
                 item.options = null;
