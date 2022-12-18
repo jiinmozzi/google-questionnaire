@@ -22,7 +22,7 @@ const DropDownQuestionChoice = ({idx} : DropDownQuestionChoicePropsType) => {
                 {idx}
             </label>
             <input className="dropdown-question-input" type="text" id={`dropdown-${idx}`} defaultValue={idx}/>
-            <CloseRoundedIcon className="dropdown-delete-icon"/>
+            <CloseRoundedIcon className="choice-delete-icon"/>
         </div>
     )
 }
