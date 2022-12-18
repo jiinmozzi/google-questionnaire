@@ -2,27 +2,33 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { connect, useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RootState } from '../../../store/slices';
-import { addOption } from '../../../store/slices/questionnaireSlice';
+import { addOption, deleteOption } from '../../../store/slices/questionnaireSlice';
 
 import { ExplanationItemType, QuestionItemType } from '../../../types';
 import "./DropDownQuestion.scss";
 
 type DropDownQuestionChoicePropsType = {
     idx : number,
+    id : number,
 }
 
 type DropDownQuestionPropsType = {
     questionData : QuestionItemType | ExplanationItemType,
 }
 
-const DropDownQuestionChoice = ({idx} : DropDownQuestionChoicePropsType) => {
+const DropDownQuestionChoice = ({idx, id} : DropDownQuestionChoicePropsType) => {
+    const dispatch = useDispatch();
+
+    const onDeleteOption = (e : React.MouseEvent) => {
+        dispatch(deleteOption({idx, id}));
+    }
     return (
         <div className="dropdown-question-choice-wrapper">
             <label htmlFor={`choice-${idx}`} className="dropdown-question-label">
                 {idx}
             </label>
             <input className="dropdown-question-input" type="text" id={`dropdown-${idx}`} defaultValue={idx}/>
-            <CloseRoundedIcon className="choice-delete-icon"/>
+            <CloseRoundedIcon className="choice-delete-icon" onClick={onDeleteOption}/>
         </div>
     )
 }
@@ -34,11 +40,9 @@ const DropDownQuestion = ({questionData} : DropDownQuestionPropsType) => {
     }
     return (
         <div className="dropdown-question-wrapper">
-            {((questionData as QuestionItemType).options as string[]).map((option : string) => {
-                return <DropDownQuestionChoice idx={1}/>    
+            {((questionData as QuestionItemType).options as string[]).map((option : string, idx : number) => {
+                return <DropDownQuestionChoice idx={idx} id={questionData.id}/>    
             })}
-            <DropDownQuestionChoice idx={1}/>
-            <DropDownQuestionChoice idx={2}/>
             <div className="dropdown-add-indicator">
                 <div className="choice-add-div">
                     <span id="add-option" onClick={onAddOption}>옵션 추가</span>&nbsp;
@@ -53,6 +57,7 @@ const DropDownQuestion = ({questionData} : DropDownQuestionPropsType) => {
 const mapDispatchToProps = (dispatch : Dispatch) => {
     return {
         addOption : (id : number) => dispatch(addOption(id)),
+        deleteOption : (idx : number, id : number) => dispatch(deleteOption({idx, id})),
     }
 }
 
