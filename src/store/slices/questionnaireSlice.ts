@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { EXPLANATION } from "../../constants";
+import { CHECKBOX, EXPLANATION, MULTIPLE } from "../../constants";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
 const initialQuestionnaireState : Questionnaire = {
     questions : [],
@@ -54,6 +54,12 @@ const questionnaireSlice = createSlice({
             const item = state.questions.find((item : QuestionItemType | ExplanationItemType) => item.id === Number(id)) as QuestionItemType;
             if (!item) return;
             item.type = type;
+            
+            if ((type === MULTIPLE || type === CHECKBOX || type === EXPLANATION)){
+                item.options = item.options || [];
+            }   else {
+                item.options = null;
+            }
         }
     }
 })

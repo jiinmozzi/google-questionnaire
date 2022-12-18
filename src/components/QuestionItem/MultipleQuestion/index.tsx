@@ -38,6 +38,9 @@ const MultipleQuestion = ({ questionData } : MultipleQuestionPropsType) => {
 
     return (
         <div className="multiple-question-wrapper">
+            {((questionData as QuestionItemType).options as string[]).map((option : string) => {
+                return <MultipleQuestionChoice idx={1}/>    
+            })}
             <MultipleQuestionChoice idx={1}/>
             <MultipleQuestionChoice idx={2}/>
             <div className="choice-add-indicator">
