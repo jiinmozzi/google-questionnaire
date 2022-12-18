@@ -17,7 +17,13 @@ export type ExplanationItemType = {
     id : number,
 }
 
+export type QuestionnaireHeader = {
+    title : string,
+    explanation : string,
+}
+
 export type Questionnaire = {
+    header : QuestionnaireHeader
     questions : (QuestionItemType | ExplanationItemType)[],
     focusedId : number,
 }
