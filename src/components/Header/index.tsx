@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Dispatch } from "redux";
+import { HEADER } from "../../constants";
 import { RootState } from "../../store/slices";
 import { updateFocus, updateHeaderExplanation, updateHeaderTitle } from "../../store/slices/questionnaireSlice";
 import { Questionnaire } from "../../types";
@@ -29,14 +30,14 @@ const Header = ({ questionnaire } : HeaderPropsType) => {
     }
 
     const onClickUpdateFocus = ( e : React.MouseEvent ) => {
-        dispatch(updateFocus({id : -1}));
+        dispatch(updateFocus({id : HEADER}));
     }
-    
+
     return (
         <form id="header-wrapper" onFocus={onUpdateFocus} onMouseDown={onClickUpdateFocus}>
             <div id="header-belt"></div>
-            { questionnaire.focusedId === -1 && <div id="header-focused"></div>}
-            { questionnaire.focusedId === -1 && <div id="header-unfocused"></div>}
+            { questionnaire.focusedId === HEADER && <div id="header-focused"></div>}
+            { questionnaire.focusedId === HEADER && <div id="header-unfocused"></div>}
             
             <div id="header-content">
                 <div id="header-input-wrapper">
