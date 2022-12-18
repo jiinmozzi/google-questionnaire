@@ -23,6 +23,7 @@ $grayline : rgba(95,99,103, 0.3);
             align-items: center;
             &:hover{
                 background-color : rgba(0,0,0,0.1);
+                cursor : pointer;
             }
         }
     }
@@ -38,9 +39,6 @@ $grayline : rgba(95,99,103, 0.3);
     .footer-icon{
         fill : rgb(95,99,103);
         font-size : 24px;
-        &:hover{
-            cursor : pointer;
-        }
     }
     #footer-option-icon{
         &:hover{
