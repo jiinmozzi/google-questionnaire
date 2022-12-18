@@ -30,7 +30,7 @@ const CheckBoxQuestionChoice = ({ idx, id } : CheckBoxQuestionChoicePropsType) =
             </label>
             {/* <RadioButtonUncheckedIcon className="checkbox-question-mark"/> */}
             <input className="checkbox-question-input" type="text" id={`choice-${idx}`} defaultValue={`옵션 ${idx}`}/>
-            <CloseRoundedIcon className="choice-delete-icon" onClick={onDeleteOption}/>
+            { idx > 0 && <CloseRoundedIcon className="choice-delete-icon" onClick={onDeleteOption}/>}
         </div>
     )
 }
