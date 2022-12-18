@@ -9,7 +9,7 @@ import LongQuestion from "../QuestionItem/LongQuestion";
 import MultipleQuestion from "../QuestionItem/MultipleQuestion";
 import CheckBoxQuestion from "../QuestionItem/CheckBoxQuestion";
 import DropDownQuestion from "../QuestionItem/DropDownQuestion";
-import { createInitialQuestionnaire } from "../../store/slices/questionnaireSlice";
+import { createInitialQuestion } from "../../store/slices/questionnaireSlice";
 import QuestionItem from "../QuestionItem";
 import { CHECKBOX, DROPDOWN, EXPLANATION, LONG, MULTIPLE, SHORT } from "../../constants";
 import ExplanationItem from "../ExplanationItem";
@@ -21,7 +21,7 @@ type QuestionnaireItemListType = {
 const QuestionItemList = ({ questionnaire } : QuestionnaireItemListType) => {
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(createInitialQuestionnaire());
+        dispatch(createInitialQuestion());
     }, [dispatch])
 
     return (
@@ -52,7 +52,7 @@ const QuestionItemList = ({ questionnaire } : QuestionnaireItemListType) => {
 
 const mapDispatchToProps = (dispatch : Dispatch) => {
     return {
-        createInititalQuestionnaire : () => dispatch(createInitialQuestionnaire()),
+        createInititalQuestion : () => dispatch(createInitialQuestion()),
     }
 }
 
