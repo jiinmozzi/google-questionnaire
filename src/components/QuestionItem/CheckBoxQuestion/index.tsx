@@ -3,6 +3,10 @@ import CheckBoxOutlineBlankRoundedIcon from '@mui/icons-material/CheckBoxOutline
 
 import "./CheckBoxQuestion.scss"
 import { ExplanationItemType, QuestionItemType } from '../../../types';
+import { connect, useDispatch } from 'react-redux';
+import { RootState } from '../../../store/slices';
+import { Dispatch } from 'redux';
+import { addOption } from '../../../store/slices/questionnaireSlice';
 
 type CheckBoxQuestionChoicePropsType = {
     idx : number
@@ -26,6 +30,10 @@ const CheckBoxQuestionChoice = ({ idx } : CheckBoxQuestionChoicePropsType) => {
 }
 
 const CheckBoxQuestion = ({ questionData } : CheckBoxQuestionPropsType ) => {
+    const dispatch = useDispatch();
+    const onAddOption = (e : React.MouseEvent) => {
+        dispatch(addOption({ id : questionData.id }));
+    }
     return (
         <div className="checkbox-question-wrapper">
             <CheckBoxQuestionChoice idx={1}/>
@@ -33,7 +41,7 @@ const CheckBoxQuestion = ({ questionData } : CheckBoxQuestionPropsType ) => {
             <div className="checkbox-add-indicator">
                 <CheckBoxOutlineBlankRoundedIcon className="choice-add-icon"/>    
                 <div className="choice-add-div">
-                    <span id="add-option">옵션 추가</span>&nbsp;
+                    <span id="add-option" onClick={onAddOption}>옵션 추가</span>&nbsp;
                     <span>또는</span>&nbsp;
                     <span id="add-others">'기타' 추가</span>
                 </div>
@@ -42,4 +50,16 @@ const CheckBoxQuestion = ({ questionData } : CheckBoxQuestionPropsType ) => {
     )
 }
 
-export default CheckBoxQuestion;
+const mapDispatchToProps = (dispatch : Dispatch) => {
+    return {
+        addOption : (id : number) => dispatch(addOption(id)),
+    }
+}
+
+const mapStateToProps = ( state : RootState ) => {
+    return {
+        questionnaire : state.questionnaireState,
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckBoxQuestion);

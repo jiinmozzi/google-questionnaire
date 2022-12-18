@@ -1,4 +1,8 @@
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { connect, useDispatch } from 'react-redux';
+import { Dispatch } from 'redux';
+import { RootState } from '../../../store/slices';
+import { addOption } from '../../../store/slices/questionnaireSlice';
 
 import { ExplanationItemType, QuestionItemType } from '../../../types';
 import "./DropDownQuestion.scss";
@@ -24,15 +28,17 @@ const DropDownQuestionChoice = ({idx} : DropDownQuestionChoicePropsType) => {
 }
 
 const DropDownQuestion = ({questionData} : DropDownQuestionPropsType) => {
-
+    const dispatch = useDispatch();
+    const onAddOption = (e : React.MouseEvent) => {
+        dispatch(addOption({ id : questionData.id }));
+    }
     return (
         <div className="dropdown-question-wrapper">
             <DropDownQuestionChoice idx={1}/>
             <DropDownQuestionChoice idx={2}/>
             <div className="dropdown-add-indicator">
-                
                 <div className="choice-add-div">
-                    <span id="add-option">옵션 추가</span>&nbsp;
+                    <span id="add-option" onClick={onAddOption}>옵션 추가</span>&nbsp;
                     <span>또는</span>&nbsp;
                     <span id="add-others">'기타' 추가</span>
                 </div>
@@ -41,4 +47,16 @@ const DropDownQuestion = ({questionData} : DropDownQuestionPropsType) => {
     )
 }
 
-export default DropDownQuestion;
+const mapDispatchToProps = (dispatch : Dispatch) => {
+    return {
+        addOption : (id : number) => dispatch(addOption(id)),
+    }
+}
+
+const mapStateToProps = ( state : RootState ) => {
+    return {
+        questionnaire : state.questionnaireState,
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DropDownQuestion);
