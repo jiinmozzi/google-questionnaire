@@ -3,6 +3,11 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 import "./MultipleQuestion.scss";
 import { ExplanationItemType, QuestionItemType } from '../../../types';
+import React from 'react';
+import { Dispatch } from 'redux';
+import { connect, useDispatch } from 'react-redux';
+import { RootState } from '../../../store/slices';
+import { addOption } from '../../../store/slices/questionnaireSlice';
 
 type MultipleQuestionChoicePropsType = {
     idx : number
@@ -26,6 +31,11 @@ const MultipleQuestionChoice = ( {idx} : MultipleQuestionChoicePropsType ) => {
 }
 
 const MultipleQuestion = ({ questionData } : MultipleQuestionPropsType) => {
+    const dispatch = useDispatch();
+    const onAddOption = (e : React.MouseEvent) => {
+        dispatch(addOption({ id : questionData.id }));
+    }
+
     return (
         <div className="multiple-question-wrapper">
             <MultipleQuestionChoice idx={1}/>
@@ -33,7 +43,7 @@ const MultipleQuestion = ({ questionData } : MultipleQuestionPropsType) => {
             <div className="choice-add-indicator">
                 <RadioButtonUncheckedIcon className="choice-add-icon"/>    
                 <div className="choice-add-div">
-                    <span id="add-option">옵션 추가</span>&nbsp;
+                    <span id="add-option" onClick={onAddOption}>옵션 추가</span>&nbsp;
                     <span>또는</span>&nbsp;
                     <span id="add-others">'기타' 추가</span>
                 </div>
@@ -42,4 +52,16 @@ const MultipleQuestion = ({ questionData } : MultipleQuestionPropsType) => {
     )
 }
 
-export default MultipleQuestion;
+const mapDispatchToProps = (dispatch : Dispatch) => {
+    return {
+        addOption : (id : number) => dispatch(addOption(id)),
+    }
+}
+
+const mapStateToProps = ( state : RootState ) => {
+    return {
+        questionnaire : state.questionnaireState,
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MultipleQuestion);
