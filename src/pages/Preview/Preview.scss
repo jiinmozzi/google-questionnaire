@@ -17,6 +17,9 @@ $main-color : rgb(103,58,182);
                 border-radius: 5px;
                 background-color: $main-color;
                 color : whitesmoke;
+                display : flex;
+                justify-content: center;
+                align-items: center;
                 &:hover{
                     cursor : pointer;
                     opacity : 0.9;

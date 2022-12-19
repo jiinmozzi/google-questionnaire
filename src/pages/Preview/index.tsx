@@ -17,14 +17,14 @@ const Preview = ({ questionnaire } : any) => {
 
     return (
         <div id="preview-wrapper">
-            <form id="preview-form" onSubmit={() => navigate('/response')}>
+            <div id="preview-form">
                 <Header />
                 <QuestionItemList />
                 <div id="preview-controller">
-                    <button id="preview-submit-btn" type="submit">제출</button>
+                    <div role="button" id="preview-submit-btn" onClick={() => navigate('/response')}>제출</div>
                     <span id="preview-reset" onClick={() => dispatch(resetQuesionnaireAnswers())}>양식 지우기</span>
                 </div>
-            </form>
+            </div>
         </div>
     )
 }
