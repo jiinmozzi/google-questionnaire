@@ -24,4 +24,5 @@ export type Questionnaire = {
     header : QuestionnaireHeader
     questions : (QuestionItemType | ExplanationItemType)[],
     focusedId : number,
+    viewPage : "home" | "preview" | "response",
 }

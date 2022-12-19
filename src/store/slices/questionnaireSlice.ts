@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CHECKBOX, DROPDOWN, EXPLANATION, HEADER, LONG, MULTIPLE, SHORT } from "../../constants";
+import { CHECKBOX, DROPDOWN, EXPLANATION, HEADER, HOME, LONG, MULTIPLE, SHORT } from "../../constants";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
 const initialQuestionnaireState : Questionnaire = {
     header : {
@@ -8,6 +8,7 @@ const initialQuestionnaireState : Questionnaire = {
     },
     questions : [],
     focusedId : HEADER,
+    viewPage : HOME,
 }
 
 const questionnaireSlice = createSlice({
@@ -150,6 +151,10 @@ const questionnaireSlice = createSlice({
         updateFocus : (state, action) => {
             const {id} = action.payload;
             state.focusedId = id;
+        },
+        updateViewPage : (state, action) => {
+            const {page} = action.payload;
+            state.viewPage = page;
         }
     }
 })
@@ -172,5 +177,6 @@ export const {
     updateExplanationContent,
     updateFocus,
     updateOption,
+    updateViewPage,
 } = questionnaireSlice.actions;
 export default questionnaireSlice.reducer;
