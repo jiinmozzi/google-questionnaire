@@ -1,20 +1,21 @@
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import CheckBoxOutlineBlankRoundedIcon from '@mui/icons-material/CheckBoxOutlineBlankRounded';
-
+import CheckBoxRoundedIcon from '@mui/icons-material/CheckBoxRounded';
 import "./CheckBoxQuestion.scss"
 import { ExplanationItemType, QuestionItemType, Questionnaire } from '../../../types';
 import { connect, useDispatch } from 'react-redux';
 import { RootState } from '../../../store/slices';
 import { Dispatch } from 'redux';
-import { addOption, addOtherOption, deleteOption, updateOption } from '../../../store/slices/questionnaireSlice';
+import { addOption, addOtherOption, deleteOption, updateAnswer, updateOption } from '../../../store/slices/questionnaireSlice';
 import React from 'react';
-import { HOME } from '../../../constants';
+import { HOME, PREVIEW } from '../../../constants';
 
 type CheckBoxQuestionChoicePropsType = {
     questionnaire : Questionnaire
     idx : number,
     id : number,
-    options : string[]
+    options : string[],
+    answer : number[],
 }
 
 type CheckBoxQuestionPropsType = {
@@ -22,7 +23,7 @@ type CheckBoxQuestionPropsType = {
     questionData : QuestionItemType | ExplanationItemType,
 }
 
-const CheckBoxQuestionChoice = ({ questionnaire, idx, id, options } : CheckBoxQuestionChoicePropsType) => {
+const CheckBoxQuestionChoice = ({ answer, questionnaire, idx, id, options } : CheckBoxQuestionChoicePropsType) => {
     const dispatch = useDispatch();
     const onDeleteOption = (e : React.MouseEvent) => {
         dispatch(deleteOption({idx, id}));
@@ -32,14 +33,26 @@ const CheckBoxQuestionChoice = ({ questionnaire, idx, id, options } : CheckBoxQu
         const target = e.target as HTMLInputElement;
         dispatch(updateOption({ idx, id, value : target.value }));
     }
+
+    const onUpdateAnswer = (e : React.MouseEvent ) => {
+        if (questionnaire.viewPage === PREVIEW){
+            dispatch(updateAnswer({ id , value : idx }));    
+        }
+    }
+
     return (
-        <div className="checkbox-question-choice-wrapper">
+        <div className="checkbox-question-choice-wrapper" onClick={onUpdateAnswer}>
             <label htmlFor={`choice-${idx}`} className="checkbox-question-label">
-                <CheckBoxOutlineBlankRoundedIcon className="checkbox-question-mark"/>    
+                {  answer.includes(idx) ? <CheckBoxRoundedIcon onClick={onUpdateAnswer} className="checkbox-question-mark"/> 
+                    : <CheckBoxOutlineBlankRoundedIcon onClick={onUpdateAnswer} className="checkbox-question-mark"/> 
+                }
             </label>
             {/* <RadioButtonUncheckedIcon className="checkbox-question-mark"/> */}
             <input 
-                className={ questionnaire.viewPage !== HOME ? "checkbox-question-input checkbox-question-input-readonly" : questionnaire.focusedId === id ? "checkbox-question-input" : "checkbox-question-input checkbox-unfocused"}
+                className={ questionnaire.viewPage !== HOME ? "checkbox-question-input checkbox-question-input-readonly" 
+                        : questionnaire.focusedId === id ? "checkbox-question-input" 
+                    : "checkbox-question-input checkbox-unfocused"
+                }
                 type="text" 
                 id={`choice-${idx}`}
                 onChange={onUpdateOption}
@@ -63,7 +76,7 @@ const CheckBoxQuestion = ({ questionnaire, questionData } : CheckBoxQuestionProp
     return (
         <div className="checkbox-question-wrapper">
             {((questionData as QuestionItemType).options as string[]).map((option : string, idx : number) => {
-                return <CheckBoxQuestionChoice questionnaire={questionnaire} idx={idx} id={questionData.id} options={ ((questionData as QuestionItemType).options) as string[] }/>    
+                return <CheckBoxQuestionChoice answer={(questionData as QuestionItemType).answer as number[]} questionnaire={questionnaire} idx={idx} id={questionData.id} options={ ((questionData as QuestionItemType).options) as string[] }/>    
             })}
             { questionnaire.viewPage === HOME && questionData.id === questionnaire.focusedId && 
                 <div className="checkbox-add-indicator">
@@ -88,7 +101,8 @@ const mapDispatchToProps = (dispatch : Dispatch) => {
         addOption : (id : number) => dispatch(addOption(id)),
         addOtherOption : (id : number) => dispatch(addOtherOption(id)),
         deleteOption : (idx : number, id : number) => dispatch(deleteOption({idx, id})),
-        updateOption : (idx : number, id : number, value : string) => dispatch(updateOption({idx, id, value}))
+        updateOption : (idx : number, id : number, value : string) => dispatch(updateOption({idx, id, value})),
+        updateAnswer : (id : number, value : number) => dispatch(updateAnswer({id, value})),
     }
 }
 

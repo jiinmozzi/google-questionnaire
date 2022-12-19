@@ -3,7 +3,7 @@ import { FormControl, MenuItem, Select } from '@mui/material';
 import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
-import { HOME } from '../../../constants';
+import { HOME, PREVIEW } from '../../../constants';
 import { RootState } from '../../../store/slices';
 import { addOption, addOtherOption, deleteOption, updateAnswer, updateOption } from '../../../store/slices/questionnaireSlice';
 import { SelectChangeEvent } from '@mui/material/Select';
@@ -25,8 +25,11 @@ type DropDownQuestionPropsType = {
 type DropDownSelectorPropsType = {
     id : number,
     options : string[],
+    questionnaire : Questionnaire,
 }
-const DropDownQuestionChoice = ({questionnaire, idx, id, options} : DropDownQuestionChoicePropsType) => {
+
+// DropDown on Home page
+const DropDownQuestionChoice = ({ questionnaire, idx, id, options } : DropDownQuestionChoicePropsType) => {
     const dispatch = useDispatch();
     const onDeleteOption = (e : React.MouseEvent) => {
         dispatch(deleteOption({idx, id}));
@@ -35,6 +38,7 @@ const DropDownQuestionChoice = ({questionnaire, idx, id, options} : DropDownQues
         const target = e.target as HTMLInputElement;
         dispatch(updateOption({ idx, id, value : target.value }));
     }
+
     return (
         <div className="dropdown-question-choice-wrapper">
             <label 
@@ -55,14 +59,14 @@ const DropDownQuestionChoice = ({questionnaire, idx, id, options} : DropDownQues
         </div>
     )
 }
-const DropDownSelector = ({ id, options } : DropDownSelectorPropsType) => {
+
+// DropDown on PREVIEW Page and RESPONSE Page
+const DropDownSelector = ({ questionnaire, id, options } : DropDownSelectorPropsType) => {
     const dispatch = useDispatch();
-    const [selected, setSelected] = useState<number>(0);
     const onUpdateAnswer = (e : SelectChangeEvent) => {
-        console.log(e);
-        setSelected(Number(e.target.value));
         dispatch(updateAnswer({ id , value : Number(e.target.value) }));
     }
+
     return (
         <FormControl sx={{ m: 1, minWidth: 120 }}>
         <Select
@@ -90,7 +94,7 @@ const DropDownQuestion = ({ questionnaire, questionData } : DropDownQuestionProp
     }
     return (
         <div className="dropdown-question-wrapper">
-            { questionnaire.viewPage !== HOME && <DropDownSelector id={questionData.id} options={((questionData as QuestionItemType).options as string[])}/> }
+            { questionnaire.viewPage !== HOME && <DropDownSelector id={questionData.id} options={((questionData as QuestionItemType).options as string[])} questionnaire={questionnaire}/> }
 
             { questionnaire.viewPage === HOME && ((questionData as QuestionItemType).options as string[]).map((option : string, idx : number) => {
                 return <DropDownQuestionChoice questionnaire={questionnaire} idx={idx} id={questionData.id} options={ ((questionData as QuestionItemType).options) as string[] }/>

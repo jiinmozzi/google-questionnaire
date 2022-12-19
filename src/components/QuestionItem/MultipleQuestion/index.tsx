@@ -1,4 +1,5 @@
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import RadioButtonCheckedRoundedIcon from '@mui/icons-material/RadioButtonCheckedRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 import "./MultipleQuestion.scss";
@@ -7,14 +8,15 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { connect, useDispatch } from 'react-redux';
 import { RootState } from '../../../store/slices';
-import { addOption, addOtherOption, deleteOption, updateOption } from '../../../store/slices/questionnaireSlice';
-import { HOME } from '../../../constants';
+import { addOption, addOtherOption, deleteOption, updateAnswer, updateOption } from '../../../store/slices/questionnaireSlice';
+import { HOME, PREVIEW } from '../../../constants';
 
 type MultipleQuestionChoicePropsType = {
     questionnaire : Questionnaire,
     id : number,
     idx : number,
     options : string[],
+    answer : number,
 }
 
 type MultipleQuestionPropsType = {
@@ -22,7 +24,7 @@ type MultipleQuestionPropsType = {
     questionnaire : Questionnaire,
 }
 
-const MultipleQuestionChoice = ( {questionnaire, idx, id, options} : MultipleQuestionChoicePropsType ) => {
+const MultipleQuestionChoice = ( {questionnaire, idx, id, options, answer} : MultipleQuestionChoicePropsType ) => {
     const dispatch = useDispatch();
     const onDeleteOption = (e : React.MouseEvent) => {
         dispatch(deleteOption({idx, id}));
@@ -33,10 +35,13 @@ const MultipleQuestionChoice = ( {questionnaire, idx, id, options} : MultipleQue
         dispatch(updateOption({ idx, id, value : target.value }));
     }
 
+    const onUpdateAnswer = (e : React.MouseEvent ) => {
+        if (questionnaire.viewPage === PREVIEW) dispatch(updateAnswer({ id, value : idx}))
+    }
     return (
-        <div className="multiple-question-choice-wrapper">
+        <div className="multiple-question-choice-wrapper" onClick={onUpdateAnswer}>
             <label htmlFor={`choice-${idx}`} className="multiple-question-label">
-                <RadioButtonUncheckedIcon className="multiple-question-mark"/>    
+                { answer !== idx ? <RadioButtonUncheckedIcon className="multiple-question-mark"/> : <RadioButtonCheckedRoundedIcon className="multiple-question-mark"/>}
             </label>
             {/* <RadioButtonUncheckedIcon className="multiple-question-mark"/> */}
             <input 
@@ -64,7 +69,7 @@ const MultipleQuestion = ({ questionnaire, questionData } : MultipleQuestionProp
     return (
         <div className="multiple-question-wrapper">
             {((questionData as QuestionItemType).options as string[]).map((option : string, idx : number) => {
-                return <MultipleQuestionChoice questionnaire={questionnaire} id={questionData.id} idx={idx} options={ ((questionData as QuestionItemType).options) as string[] }/>    
+                return <MultipleQuestionChoice answer={(questionData as QuestionItemType).answer as number} questionnaire={questionnaire} id={questionData.id} idx={idx} options={ ((questionData as QuestionItemType).options) as string[] }/>    
             })}
             { questionnaire.viewPage === HOME && questionData.id === questionnaire.focusedId && 
             <div className="choice-add-indicator">
@@ -89,7 +94,8 @@ const mapDispatchToProps = (dispatch : Dispatch) => {
         addOption : (id : number) => dispatch(addOption(id)),
         addOtherOption : (id : number) => dispatch(addOtherOption(id)),
         deleteOption : (idx : number, id : number) => dispatch(deleteOption({idx, id})),
-        updateOption : (idx : number, id : number, value : string) => dispatch(updateOption({idx, id, value}))
+        updateOption : (idx : number, id : number, value : string) => dispatch(updateOption({idx, id, value})),
+        updateAnswer : (id : number, value : number) => dispatch(updateOption({id, value}))
     }
 }
 
