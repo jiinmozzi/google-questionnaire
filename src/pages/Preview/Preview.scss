@@ -1,0 +1,40 @@
+$main-color : rgb(103,58,182);
+
+#preview-wrapper{
+    #preview-form{
+        width: 768px;
+        margin : 0 auto;
+        #preview-controller{
+            display : flex;
+            justify-content: space-between;
+            align-items : center;
+            #preview-submit-btn{
+                outline : none;
+                margin-top : 20px;
+                width : 90px;
+                height : 40px;
+                border : none;
+                border-radius: 5px;
+                background-color: $main-color;
+                color : whitesmoke;
+                &:hover{
+                    cursor : pointer;
+                    opacity : 0.9;
+                }
+            }
+            #preview-reset{
+                color : $main-color;
+                width : 100px;
+                height : 40px;
+                border-radius: 5%;
+                display : flex;
+                justify-content: center;
+                align-items: center;
+                &:hover{
+                    cursor : pointer;
+                    background-color : rgba(103, 58, 182, 0.1);
+                }
+            }
+        }
+    }
+}
