@@ -71,6 +71,12 @@ $main-color : rgb(103,58,182);
                 border-bottom : 2px solid $main-color;
             }
         }
+        .multiple-unfocused{
+            border-bottom : 2px solid #fff;
+            &:hover{
+                border-bottom : 2px solid #fff;
+            }
+        }
         .choice-delete-icon{
             cursor : pointer;
             color : rgb(95,99,103);

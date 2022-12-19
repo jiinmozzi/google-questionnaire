@@ -43,7 +43,7 @@ const QuestionItem = ({ questionnaire, children } : QuestionItemPropsType) => {
             <div className="question-item-content">
                 <QuestionItemHeader questionData={ questionData }/>
                 {children}
-                <QuestionItemFooter questionData={ questionData }/>
+                { questionData.id === questionnaire.focusedId && <QuestionItemFooter questionData={ questionData }/>}
             </div>
         </form>
     )

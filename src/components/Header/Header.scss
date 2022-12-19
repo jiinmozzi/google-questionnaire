@@ -55,6 +55,9 @@ $gray-color : rgb(95,99,103);
                     border-bottom : 2px solid $main-color;
                 }
             }
+            .header-unfocused{
+                border-bottom : none;
+            }
             #header-title{
                 font-size : 32px;
                 margin-top : 24px;

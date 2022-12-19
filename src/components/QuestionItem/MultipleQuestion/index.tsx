@@ -2,7 +2,7 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 import "./MultipleQuestion.scss";
-import { ExplanationItemType, QuestionItemType } from '../../../types';
+import { ExplanationItemType, QuestionItemType, Questionnaire } from '../../../types';
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect, useDispatch } from 'react-redux';
@@ -10,6 +10,7 @@ import { RootState } from '../../../store/slices';
 import { addOption, addOtherOption, deleteOption, updateOption } from '../../../store/slices/questionnaireSlice';
 
 type MultipleQuestionChoicePropsType = {
+    questionnaire : Questionnaire,
     id : number,
     idx : number,
     options : string[],
@@ -17,9 +18,10 @@ type MultipleQuestionChoicePropsType = {
 
 type MultipleQuestionPropsType = {
     questionData : QuestionItemType | ExplanationItemType,
+    questionnaire : Questionnaire,
 }
 
-const MultipleQuestionChoice = ( {idx, id, options} : MultipleQuestionChoicePropsType ) => {
+const MultipleQuestionChoice = ( {questionnaire, idx, id, options} : MultipleQuestionChoicePropsType ) => {
     const dispatch = useDispatch();
     const onDeleteOption = (e : React.MouseEvent) => {
         dispatch(deleteOption({idx, id}));
@@ -37,20 +39,20 @@ const MultipleQuestionChoice = ( {idx, id, options} : MultipleQuestionChoiceProp
             </label>
             {/* <RadioButtonUncheckedIcon className="multiple-question-mark"/> */}
             <input 
-                className="multiple-question-input" 
+                className={questionnaire.focusedId === id ? "multiple-question-input" : "multiple-question-input multiple-unfocused"}
                 type="text" 
                 onChange={onUpdateOption}
                 readOnly = { options[idx] === '기타...' }
-                value={ options[idx] }
+                defaultValue={ options[idx] }
                 id={`choice-${idx}`} 
                 placeholder={`옵션 ${idx+1}`}
                 />
-            { idx > 0 && <CloseRoundedIcon className="choice-delete-icon" onClick={onDeleteOption}/>}
+            { idx > 0 && questionnaire.focusedId === id && <CloseRoundedIcon className="choice-delete-icon" onClick={onDeleteOption}/>}
         </div>
     )
 }
 
-const MultipleQuestion = ({ questionData } : MultipleQuestionPropsType) => {
+const MultipleQuestion = ({ questionnaire, questionData } : MultipleQuestionPropsType) => {
     const dispatch = useDispatch();
     const onAddOption = (e : React.MouseEvent) => {
         dispatch(addOption({ id : questionData.id }));
@@ -61,9 +63,9 @@ const MultipleQuestion = ({ questionData } : MultipleQuestionPropsType) => {
     return (
         <div className="multiple-question-wrapper">
             {((questionData as QuestionItemType).options as string[]).map((option : string, idx : number) => {
-                return <MultipleQuestionChoice id={questionData.id} idx={idx} options={ ((questionData as QuestionItemType).options) as string[] }/>    
+                return <MultipleQuestionChoice questionnaire={questionnaire} id={questionData.id} idx={idx} options={ ((questionData as QuestionItemType).options) as string[] }/>    
             })}
-            
+            { questionData.id === questionnaire.focusedId && 
             <div className="choice-add-indicator">
                 <RadioButtonUncheckedIcon className="choice-add-icon"/>    
                 <div className="choice-add-div">
@@ -76,6 +78,7 @@ const MultipleQuestion = ({ questionData } : MultipleQuestionPropsType) => {
                     }
                 </div>
             </div>
+            }
         </div>
     )
 }

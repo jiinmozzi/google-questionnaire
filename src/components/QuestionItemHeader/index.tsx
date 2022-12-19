@@ -2,17 +2,18 @@ import QuestionTypeDropDown from "../QuestionTypeDropDown";
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import "./QuestionItemHeader.scss";
 import React, { useEffect, useState } from "react";
-import { ExplanationItemType, QuestionItemType } from "../../types";
+import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
 import { Dispatch } from "redux";
 import { RootState } from "../../store/slices";
 import { connect, useDispatch } from "react-redux";
 import { updateQuestionText } from "../../store/slices/questionnaireSlice";
 
 type QuestionItemHeaderPropsType = {
+    questionnaire : Questionnaire
     questionData : QuestionItemType | ExplanationItemType,
 }
 
-const QuestionItemHeader = ({ questionData } : QuestionItemHeaderPropsType ) => {
+const QuestionItemHeader = ({ questionData, questionnaire } : QuestionItemHeaderPropsType ) => {
     const dispatch = useDispatch();
     const [focused, setFocused] = useState<boolean>(false); 
     const onUpdateQuestionText = (e : React.ChangeEvent) => {
@@ -23,18 +24,23 @@ const QuestionItemHeader = ({ questionData } : QuestionItemHeaderPropsType ) => 
     return (
         <div className="question-item-header-wrapper">
             <div className="question-title-wrapper">
+                { questionData.id === questionnaire.focusedId ? 
                 <input 
                     type="text" 
                     className="question-title-input" 
                     placeholder="질문"
-                    onFocus={() => setFocused(true)} 
-                    onBlur={() => setFocused(false)}
                     onChange={onUpdateQuestionText}
-                    value={(questionData as QuestionItemType).question}
-                    />
+                    defaultValue={(questionData as QuestionItemType).question}
+                /> : 
+                <div className="unfocused-item-title">{(questionData as QuestionItemType).question || "질문"}</div>
+                }
             </div>
-            <InsertPhotoOutlinedIcon className="photo-disabled"/>
-            <QuestionTypeDropDown questionData={questionData}/>
+            { questionData.id === questionnaire.focusedId && 
+                <>
+                    <InsertPhotoOutlinedIcon className="photo-disabled"/>
+                    <QuestionTypeDropDown questionData={questionData}/>
+                </>
+            }
         </div>
     )
 }

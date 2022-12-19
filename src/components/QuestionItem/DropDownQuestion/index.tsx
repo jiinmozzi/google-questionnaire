@@ -5,20 +5,22 @@ import { Dispatch } from 'redux';
 import { RootState } from '../../../store/slices';
 import { addOption, addOtherOption, deleteOption, updateOption } from '../../../store/slices/questionnaireSlice';
 
-import { ExplanationItemType, QuestionItemType } from '../../../types';
+import { ExplanationItemType, QuestionItemType, Questionnaire } from '../../../types';
 import "./DropDownQuestion.scss";
 
 type DropDownQuestionChoicePropsType = {
+    questionnaire : Questionnaire,
     idx : number,
     id : number,
     options : string[],
 }
 
 type DropDownQuestionPropsType = {
+    questionnaire : Questionnaire,
     questionData : QuestionItemType | ExplanationItemType,
 }
 
-const DropDownQuestionChoice = ({idx, id, options} : DropDownQuestionChoicePropsType) => {
+const DropDownQuestionChoice = ({questionnaire, idx, id, options} : DropDownQuestionChoicePropsType) => {
     const dispatch = useDispatch();
 
     const onDeleteOption = (e : React.MouseEvent) => {
@@ -38,19 +40,19 @@ const DropDownQuestionChoice = ({idx, id, options} : DropDownQuestionChoiceProps
                 {idx + 1}
             </label>
             <input 
-                className="dropdown-question-input" 
+                className={questionnaire.focusedId === id ? "dropdown-question-input" : "dropdown-question-input dropdown-unfocused"}
                 type="text" 
                 id={`dropdown-${idx}`} 
                 onChange={onUpdateOption}
                 value={ options[idx] }
                 placeholder={`옵션 ${idx+1}`}
             />
-            { idx > 0 && <CloseRoundedIcon className="choice-delete-icon" onClick={onDeleteOption}/>}
+            { idx > 0 && questionnaire.focusedId === id && <CloseRoundedIcon className="choice-delete-icon" onClick={onDeleteOption}/>}
         </div>
     )
 }
 
-const DropDownQuestion = ({questionData} : DropDownQuestionPropsType) => {
+const DropDownQuestion = ({ questionnaire, questionData } : DropDownQuestionPropsType) => {
     const dispatch = useDispatch();
     const onAddOption = (e : React.MouseEvent) => {
         dispatch(addOption({ id : questionData.id }));
@@ -58,18 +60,20 @@ const DropDownQuestion = ({questionData} : DropDownQuestionPropsType) => {
     return (
         <div className="dropdown-question-wrapper">
             {((questionData as QuestionItemType).options as string[]).map((option : string, idx : number) => {
-                return <DropDownQuestionChoice idx={idx} id={questionData.id} options={ ((questionData as QuestionItemType).options) as string[] }/>
+                return <DropDownQuestionChoice questionnaire={questionnaire} idx={idx} id={questionData.id} options={ ((questionData as QuestionItemType).options) as string[] }/>
             })}
-            <div className="dropdown-add-indicator">
-                <label 
-                    htmlFor={`dropdown-${((questionData as QuestionItemType).options as string[]).length}`} 
-                    className="dropdown-question-label">
-                    {((questionData as QuestionItemType).options as string[]).length + 1}
-                </label>
-                <div className="dropdown-add-div">
-                    <span id="add-option" onClick={onAddOption}>옵션 추가</span>&nbsp;
+            { questionData.id === questionnaire.focusedId && 
+                <div className="dropdown-add-indicator">
+                    <label 
+                        htmlFor={`dropdown-${((questionData as QuestionItemType).options as string[]).length}`} 
+                        className="dropdown-question-label">
+                        {((questionData as QuestionItemType).options as string[]).length + 1}
+                    </label>
+                    <div className="dropdown-add-div">
+                        <span id="add-option" onClick={onAddOption}>옵션 추가</span>&nbsp;
+                    </div>
                 </div>
-            </div>
+            }
         </div>
     )
 }

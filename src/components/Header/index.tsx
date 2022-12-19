@@ -42,23 +42,25 @@ const Header = ({ questionnaire } : HeaderPropsType) => {
             <div id="header-content">
                 <div id="header-input-wrapper">
                     <input 
-                        className="header-input" 
+                        className={ questionnaire.focusedId === HEADER ? "header-focused header-input" : "header-unfocused header-input" }
+                        
                         id="header-title" 
                         onBlur={() => setTitleFocused(false)} 
                         onFocus={() => setTitleFocused(true)} 
                         onChange={onUpdateHeaderTitle}
                         placeholder="제목 없는 설문지"
                         type="text" 
-                        defaultValue="제목 없는 설문지"
+                        defaultValue={questionnaire.header.title}
                     />
                     {titleFocused && <FontStyleSelector />}
                     <input 
-                        className="header-input" 
+                        className={ questionnaire.focusedId === HEADER ? "header-focused header-input" : "header-unfocused header-input" }
                         id="header-explanation" 
                         type="text"
                         onBlur={() => setExplanationFocused(false)} 
                         onFocus={() => setExplanationFocused(true)}
                         onChange={onUpdateHeaderExplanation}
+                        defaultValue={questionnaire.header.explanation}
                         placeholder="설문지 설명" 
                     />
                     {explanationFocused && <FontStyleSelector />}

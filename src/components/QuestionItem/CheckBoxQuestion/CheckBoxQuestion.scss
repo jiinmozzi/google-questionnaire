@@ -46,8 +46,6 @@ $main-color : rgb(103,58,182);
         align-items : center;
         position : relative;
         .checkbox-question-label{
-            // position : relative;
-            top : 2px;
             margin-right : 20px;
             .checkbox-question-mark{
                 color : rgb(95,99,103);
@@ -69,6 +67,14 @@ $main-color : rgb(103,58,182);
             }
             &:focus{
                 border-bottom : 2px solid $main-color;
+            }
+        }
+        .checkbox-unfocused{
+            border-bottom : 2px solid #fff;
+            border-bottom : none; 
+            &:hover{
+                border-bottom : 2px solid #fff;
+                border-bottom : none;
             }
         }
         .choice-delete-icon{
