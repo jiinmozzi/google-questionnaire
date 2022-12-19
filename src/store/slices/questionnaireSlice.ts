@@ -91,6 +91,9 @@ const questionnaireSlice = createSlice({
             }   else {
                 item.options = null;
             }
+            if (type === CHECKBOX){
+                item.answer = [];
+            }
         },
         createQuestion : (state) => {
             const currentFocusedItemIdx = state.questions.findIndex((item : QuestionItemType | ExplanationItemType) => item.id === state.focusedId);
@@ -124,16 +127,38 @@ const questionnaireSlice = createSlice({
             state.questions = [...prev, newQuestion, ...next];
             
         },
+
         updateQuestionText : (state, action) => {
             const {id, value} = action.payload;
             const item = state.questions.find((item : QuestionItemType | ExplanationItemType) => item.id === Number(id)) as QuestionItemType;
             item.question = value;
         },
+
         updateHeaderTitle : (state, action) => {
             const {value} = action.payload;
             console.log(value);
             state.header.title = value;
         },
+
+        updateAnswer : (state, action) => {
+            const {id, value} = action.payload;
+            const item = state.questions.find((item : QuestionItemType | ExplanationItemType) => item.id === Number(id)) as QuestionItemType;
+
+            // 질문의 답이 하나일 경우
+            if (typeof(item.answer) === 'string'){
+                item.answer = String(value);
+                return;
+            }
+            
+            // 질문의 답이 여러가지인 경우 (체크박스) 
+            const answerIndex = item.answer.indexOf(value);
+            if (answerIndex === -1){
+                item.answer.push(value);
+            }   else {
+                item.answer.splice(answerIndex, 1);
+            }
+        },
+
         updateHeaderExplanation : (state, action) => {
             const {value} = action.payload;
             state.header.explanation = value;
@@ -185,6 +210,7 @@ export const {
     createExplanation,
     updateQuestionText,
     updateHeaderTitle,
+    updateAnswer,
     updateHeaderExplanation,
     updateExplanationTitle,
     updateExplanationContent,
