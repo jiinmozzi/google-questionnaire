@@ -40,7 +40,7 @@ const MultipleQuestionChoice = ( {questionnaire, idx, id, options, answer} : Mul
     }
     return (
         <div className="multiple-question-choice-wrapper" onClick={onUpdateAnswer}>
-            <label htmlFor={`choice-${idx}`} className="multiple-question-label">
+            <label htmlFor={`multiple-${idx}`} className="multiple-question-label">
                 { answer !== idx ? <RadioButtonUncheckedIcon className="multiple-question-mark"/> : <RadioButtonCheckedRoundedIcon className="multiple-question-mark"/>}
             </label>
             {/* <RadioButtonUncheckedIcon className="multiple-question-mark"/> */}
@@ -50,7 +50,7 @@ const MultipleQuestionChoice = ( {questionnaire, idx, id, options, answer} : Mul
                 onChange={onUpdateOption}
                 readOnly = { questionnaire.viewPage !== HOME || options[idx] === '기타...' }
                 defaultValue={ options[idx] }
-                id={`choice-${idx}`} 
+                id={`multiple-${idx}`} 
                 placeholder={`옵션 ${idx+1}`}
                 />
             { questionnaire.viewPage === HOME && idx > 0 && questionnaire.focusedId === id && <CloseRoundedIcon className="choice-delete-icon" onClick={onDeleteOption}/>}

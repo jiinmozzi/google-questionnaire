@@ -42,7 +42,7 @@ const CheckBoxQuestionChoice = ({ answer, questionnaire, idx, id, options } : Ch
 
     return (
         <div className="checkbox-question-choice-wrapper" onClick={onUpdateAnswer}>
-            <label htmlFor={`choice-${idx}`} className="checkbox-question-label">
+            <label htmlFor={`checkbox-${idx}`} className="checkbox-question-label">
                 {  answer.includes(idx) ? <CheckBoxRoundedIcon onClick={onUpdateAnswer} className="checkbox-question-mark"/> 
                     : <CheckBoxOutlineBlankRoundedIcon onClick={onUpdateAnswer} className="checkbox-question-mark"/> 
                 }
@@ -54,7 +54,7 @@ const CheckBoxQuestionChoice = ({ answer, questionnaire, idx, id, options } : Ch
                     : "checkbox-question-input checkbox-unfocused"
                 }
                 type="text" 
-                id={`choice-${idx}`}
+                id={`checkbox-${idx}`}
                 onChange={onUpdateOption}
                 value={ options[idx] }
                 readOnly = { questionnaire.viewPage !== HOME || options[idx] === '기타...' }
