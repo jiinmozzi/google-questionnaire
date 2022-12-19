@@ -9,6 +9,7 @@ import { Dispatch } from "redux";
 import { RootState } from "../../store/slices";
 import { updateFocus } from "../../store/slices/questionnaireSlice";
 import { connect, useDispatch } from "react-redux";
+import { HOME } from "../../constants";
 
 type QuestionItemPropsType = {
     children : ReactNode,
@@ -39,11 +40,11 @@ const QuestionItem = ({ questionnaire, children } : QuestionItemPropsType) => {
     }
     return (
         <form className="question-item-wrapper" onFocus={onUpdateFocus} onMouseDown={onClickUpdateFocus}>
-            { questionnaire.focusedId === questionData.id && <div className="question-item-focused"></div>}
+            { questionnaire.viewPage === HOME && questionnaire.focusedId === questionData.id && <div className="question-item-focused"></div>}
             <div className="question-item-content">
                 <QuestionItemHeader questionData={ questionData }/>
                 {children}
-                { questionData.id === questionnaire.focusedId && <QuestionItemFooter questionData={ questionData }/>}
+                { questionnaire.viewPage === HOME && questionData.id === questionnaire.focusedId && <QuestionItemFooter questionData={ questionData }/>}
             </div>
         </form>
     )

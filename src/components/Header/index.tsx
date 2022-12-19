@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Dispatch } from "redux";
-import { HEADER } from "../../constants";
+import { HEADER, HOME, PREVIEW, RESPONSE } from "../../constants";
 import { RootState } from "../../store/slices";
 import { updateFocus, updateHeaderExplanation, updateHeaderTitle } from "../../store/slices/questionnaireSlice";
 import { Questionnaire } from "../../types";
@@ -36,25 +36,26 @@ const Header = ({ questionnaire } : HeaderPropsType) => {
     return (
         <form id="header-wrapper" onFocus={onUpdateFocus} onMouseDown={onClickUpdateFocus}>
             <div id="header-belt"></div>
-            { questionnaire.focusedId === HEADER && <div id="header-focused"></div>}
-            { questionnaire.focusedId === HEADER && <div id="header-unfocused"></div>}
+            { questionnaire.focusedId === HEADER && questionnaire.viewPage === HOME && <div id="header-focused"></div>}
+            { questionnaire.focusedId === HEADER && questionnaire.viewPage === HOME && <div id="header-unfocused"></div>}
             
             <div id="header-content">
                 <div id="header-input-wrapper">
                     <input 
-                        className={ questionnaire.focusedId === HEADER ? "header-focused header-input" : "header-unfocused header-input" }
+                        className={ questionnaire.viewPage !== HOME ? "header-input header-readOnly" : questionnaire.focusedId === HEADER ? "header-focused header-input" : "header-unfocused header-input" }
                         
                         id="header-title" 
                         onBlur={() => setTitleFocused(false)} 
-                        onFocus={() => setTitleFocused(true)} 
+                        onFocus={() => setTitleFocused(true)}
+                        readOnly={ questionnaire.viewPage === PREVIEW || questionnaire.viewPage === RESPONSE }
                         onChange={onUpdateHeaderTitle}
                         placeholder="제목 없는 설문지"
                         type="text" 
                         defaultValue={questionnaire.header.title}
                     />
-                    {titleFocused && <FontStyleSelector />}
+                    {titleFocused && questionnaire.viewPage === HOME && <FontStyleSelector />}
                     <input 
-                        className={ questionnaire.focusedId === HEADER ? "header-focused header-input" : "header-unfocused header-input" }
+                        className={ questionnaire.viewPage !== HOME ? "header-input header-readOnly" : questionnaire.focusedId === HEADER ? "header-focused header-input" : "header-unfocused header-input" }
                         id="header-explanation" 
                         type="text"
                         onBlur={() => setExplanationFocused(false)} 
@@ -63,7 +64,7 @@ const Header = ({ questionnaire } : HeaderPropsType) => {
                         defaultValue={questionnaire.header.explanation}
                         placeholder="설문지 설명" 
                     />
-                    {explanationFocused && <FontStyleSelector />}
+                    {explanationFocused && questionnaire.viewPage === HOME && <FontStyleSelector />}
                 </div>
             </div>
         </form>

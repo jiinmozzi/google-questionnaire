@@ -58,6 +58,10 @@ $gray-color : rgb(95,99,103);
             .header-unfocused{
                 border-bottom : none;
             }
+            .header-readOnly{
+                border-bottom : none;
+                pointer-events: none;
+            }
             #header-title{
                 font-size : 32px;
                 margin-top : 24px;

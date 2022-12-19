@@ -8,6 +8,7 @@ import { RootState } from '../../../store/slices';
 import { Dispatch } from 'redux';
 import { addOption, addOtherOption, deleteOption, updateOption } from '../../../store/slices/questionnaireSlice';
 import React from 'react';
+import { HOME } from '../../../constants';
 
 type CheckBoxQuestionChoicePropsType = {
     questionnaire : Questionnaire
@@ -38,15 +39,15 @@ const CheckBoxQuestionChoice = ({ questionnaire, idx, id, options } : CheckBoxQu
             </label>
             {/* <RadioButtonUncheckedIcon className="checkbox-question-mark"/> */}
             <input 
-                className={ questionnaire.focusedId === id ? "checkbox-question-input" : "checkbox-question-input checkbox-unfocused"}
+                className={ questionnaire.viewPage !== HOME ? "checkbox-question-input checkbox-question-input-readonly" : questionnaire.focusedId === id ? "checkbox-question-input" : "checkbox-question-input checkbox-unfocused"}
                 type="text" 
                 id={`choice-${idx}`}
                 onChange={onUpdateOption}
                 value={ options[idx] }
-                readOnly = { options[idx] === '기타...' }
+                readOnly = { questionnaire.viewPage !== HOME || options[idx] === '기타...' }
                 placeholder={`옵션 ${idx+1}`}
             />
-            { idx > 0 && questionnaire.focusedId === id && <CloseRoundedIcon className="choice-delete-icon" onClick={onDeleteOption}/>}
+            { questionnaire.viewPage === HOME && idx > 0 && questionnaire.focusedId === id && <CloseRoundedIcon className="choice-delete-icon" onClick={onDeleteOption}/>}
         </div>
     )
 }
@@ -64,7 +65,7 @@ const CheckBoxQuestion = ({ questionnaire, questionData } : CheckBoxQuestionProp
             {((questionData as QuestionItemType).options as string[]).map((option : string, idx : number) => {
                 return <CheckBoxQuestionChoice questionnaire={questionnaire} idx={idx} id={questionData.id} options={ ((questionData as QuestionItemType).options) as string[] }/>    
             })}
-            { questionData.id === questionnaire.focusedId && 
+            { questionnaire.viewPage === HOME && questionData.id === questionnaire.focusedId && 
                 <div className="checkbox-add-indicator">
                     <CheckBoxOutlineBlankRoundedIcon className="choice-add-icon"/>    
                     <div className="choice-add-div">

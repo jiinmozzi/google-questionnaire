@@ -8,6 +8,7 @@ import { Dispatch } from 'redux';
 import { connect, useDispatch } from 'react-redux';
 import { RootState } from '../../../store/slices';
 import { addOption, addOtherOption, deleteOption, updateOption } from '../../../store/slices/questionnaireSlice';
+import { HOME } from '../../../constants';
 
 type MultipleQuestionChoicePropsType = {
     questionnaire : Questionnaire,
@@ -39,15 +40,15 @@ const MultipleQuestionChoice = ( {questionnaire, idx, id, options} : MultipleQue
             </label>
             {/* <RadioButtonUncheckedIcon className="multiple-question-mark"/> */}
             <input 
-                className={questionnaire.focusedId === id ? "multiple-question-input" : "multiple-question-input multiple-unfocused"}
+                className={ questionnaire.viewPage !== HOME ? "multiple-question-input multiple-question-input-readonly" : questionnaire.focusedId === id ? "multiple-question-input" : "multiple-question-input multiple-unfocused"}
                 type="text" 
                 onChange={onUpdateOption}
-                readOnly = { options[idx] === '기타...' }
+                readOnly = { questionnaire.viewPage !== HOME || options[idx] === '기타...' }
                 defaultValue={ options[idx] }
                 id={`choice-${idx}`} 
                 placeholder={`옵션 ${idx+1}`}
                 />
-            { idx > 0 && questionnaire.focusedId === id && <CloseRoundedIcon className="choice-delete-icon" onClick={onDeleteOption}/>}
+            { questionnaire.viewPage === HOME && idx > 0 && questionnaire.focusedId === id && <CloseRoundedIcon className="choice-delete-icon" onClick={onDeleteOption}/>}
         </div>
     )
 }
@@ -65,7 +66,7 @@ const MultipleQuestion = ({ questionnaire, questionData } : MultipleQuestionProp
             {((questionData as QuestionItemType).options as string[]).map((option : string, idx : number) => {
                 return <MultipleQuestionChoice questionnaire={questionnaire} id={questionData.id} idx={idx} options={ ((questionData as QuestionItemType).options) as string[] }/>    
             })}
-            { questionData.id === questionnaire.focusedId && 
+            { questionnaire.viewPage === HOME && questionData.id === questionnaire.focusedId && 
             <div className="choice-add-indicator">
                 <RadioButtonUncheckedIcon className="choice-add-icon"/>    
                 <div className="choice-add-div">

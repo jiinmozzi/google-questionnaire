@@ -1,9 +1,12 @@
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import React from 'react';
+import { FormControl, MenuItem, Select } from '@mui/material';
+import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
+import { HOME } from '../../../constants';
 import { RootState } from '../../../store/slices';
-import { addOption, addOtherOption, deleteOption, updateOption } from '../../../store/slices/questionnaireSlice';
+import { addOption, addOtherOption, deleteOption, updateAnswer, updateOption } from '../../../store/slices/questionnaireSlice';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 import { ExplanationItemType, QuestionItemType, Questionnaire } from '../../../types';
 import "./DropDownQuestion.scss";
@@ -19,19 +22,19 @@ type DropDownQuestionPropsType = {
     questionnaire : Questionnaire,
     questionData : QuestionItemType | ExplanationItemType,
 }
-
+type DropDownSelectorPropsType = {
+    id : number,
+    options : string[],
+}
 const DropDownQuestionChoice = ({questionnaire, idx, id, options} : DropDownQuestionChoicePropsType) => {
     const dispatch = useDispatch();
-
     const onDeleteOption = (e : React.MouseEvent) => {
         dispatch(deleteOption({idx, id}));
     }
-
     const onUpdateOption = (e : React.ChangeEvent) => {
         const target = e.target as HTMLInputElement;
         dispatch(updateOption({ idx, id, value : target.value }));
     }
-
     return (
         <div className="dropdown-question-choice-wrapper">
             <label 
@@ -40,15 +43,43 @@ const DropDownQuestionChoice = ({questionnaire, idx, id, options} : DropDownQues
                 {idx + 1}
             </label>
             <input 
-                className={questionnaire.focusedId === id ? "dropdown-question-input" : "dropdown-question-input dropdown-unfocused"}
+                className={questionnaire.viewPage === HOME ? "dropdown-question-input dropdown-question-input-readonly" : questionnaire.focusedId === id ? "dropdown-question-input" : "dropdown-question-input dropdown-unfocused"}
                 type="text" 
-                id={`dropdown-${idx}`} 
+                id={`dropdown-${idx}`}
+                readOnly={questionnaire.viewPage !== HOME}
                 onChange={onUpdateOption}
                 value={ options[idx] }
                 placeholder={`옵션 ${idx+1}`}
             />
-            { idx > 0 && questionnaire.focusedId === id && <CloseRoundedIcon className="choice-delete-icon" onClick={onDeleteOption}/>}
+            { questionnaire.viewPage === HOME && idx > 0 && questionnaire.focusedId === id && <CloseRoundedIcon className="choice-delete-icon" onClick={onDeleteOption}/>}
         </div>
+    )
+}
+const DropDownSelector = ({ id, options } : DropDownSelectorPropsType) => {
+    const dispatch = useDispatch();
+    const [selected, setSelected] = useState<number>(0);
+    const onUpdateAnswer = (e : SelectChangeEvent) => {
+        console.log(e);
+        setSelected(Number(e.target.value));
+        dispatch(updateAnswer({ id , value : Number(e.target.value) }));
+    }
+    return (
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
+        <Select
+          onChange={onUpdateAnswer}
+          defaultValue="선택"
+          displayEmpty
+          inputProps={{ 'aria-label': 'Without label' }}
+        >
+          <MenuItem disabled value="선택">
+            <em>선택</em>
+          </MenuItem>
+          {options.map((option : string, idx : number) => {
+            return <MenuItem value={String(idx)} key={idx}>{option}</MenuItem>
+          })}
+          
+        </Select>
+      </FormControl>
     )
 }
 
@@ -59,10 +90,13 @@ const DropDownQuestion = ({ questionnaire, questionData } : DropDownQuestionProp
     }
     return (
         <div className="dropdown-question-wrapper">
-            {((questionData as QuestionItemType).options as string[]).map((option : string, idx : number) => {
+            { questionnaire.viewPage !== HOME && <DropDownSelector id={questionData.id} options={((questionData as QuestionItemType).options as string[])}/> }
+
+            { questionnaire.viewPage === HOME && ((questionData as QuestionItemType).options as string[]).map((option : string, idx : number) => {
                 return <DropDownQuestionChoice questionnaire={questionnaire} idx={idx} id={questionData.id} options={ ((questionData as QuestionItemType).options) as string[] }/>
             })}
-            { questionData.id === questionnaire.focusedId && 
+
+            { questionnaire.viewPage === HOME && questionData.id === questionnaire.focusedId && 
                 <div className="dropdown-add-indicator">
                     <label 
                         htmlFor={`dropdown-${((questionData as QuestionItemType).options as string[]).length}`} 
@@ -83,7 +117,8 @@ const mapDispatchToProps = (dispatch : Dispatch) => {
         addOption : (id : number) => dispatch(addOption(id)),
         addOtherOption : (id : number) => dispatch(addOtherOption(id)),
         deleteOption : (idx : number, id : number) => dispatch(deleteOption({idx, id})),
-        updateOption : (idx : number, id : number, value : string) => dispatch(updateOption({idx, id, value}))
+        updateOption : (idx : number, id : number, value : string) => dispatch(updateOption({idx, id, value})),
+        updateAnswer : (id : number, value : number) => dispatch(updateAnswer({id, value}))
     }
 }
 

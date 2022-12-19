@@ -71,6 +71,14 @@ $main-color : rgb(103,58,182);
                 border-bottom : 2px solid $main-color;
             }
         }
+        .multiple-question-input-readonly{
+            &:hover{
+                border-bottom : 2px solid #fff;
+            }
+            &:focus{
+                border-bottom : 2px solid #fff;
+            }
+        }
         .multiple-unfocused{
             border-bottom : 2px solid #fff;
             &:hover{

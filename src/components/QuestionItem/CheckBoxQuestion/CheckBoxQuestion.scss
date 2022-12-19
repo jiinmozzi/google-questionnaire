@@ -69,6 +69,15 @@ $main-color : rgb(103,58,182);
                 border-bottom : 2px solid $main-color;
             }
         }
+
+        .checkbox-question-input-readonly{
+            &:hover{
+                border-bottom : 2px solid #fff;
+            }
+            &:focus{
+                border-bottom : 2px solid #fff;
+            }
+        }
         .checkbox-unfocused{
             border-bottom : 2px solid #fff;
             border-bottom : none; 

@@ -7,6 +7,7 @@ import { Dispatch } from "redux";
 import { RootState } from "../../store/slices";
 import { connect, useDispatch } from "react-redux";
 import { updateQuestionText } from "../../store/slices/questionnaireSlice";
+import { HOME } from "../../constants";
 
 type QuestionItemHeaderPropsType = {
     questionnaire : Questionnaire
@@ -24,7 +25,7 @@ const QuestionItemHeader = ({ questionData, questionnaire } : QuestionItemHeader
     return (
         <div className="question-item-header-wrapper">
             <div className="question-title-wrapper">
-                { questionData.id === questionnaire.focusedId ? 
+                { questionnaire.viewPage === HOME && questionData.id === questionnaire.focusedId ? 
                 <input 
                     type="text" 
                     className="question-title-input" 
@@ -35,7 +36,7 @@ const QuestionItemHeader = ({ questionData, questionnaire } : QuestionItemHeader
                 <div className="unfocused-item-title">{(questionData as QuestionItemType).question || "질문"}</div>
                 }
             </div>
-            { questionData.id === questionnaire.focusedId && 
+            { questionnaire.viewPage === HOME && questionData.id === questionnaire.focusedId && 
                 <>
                     <InsertPhotoOutlinedIcon className="photo-disabled"/>
                     <QuestionTypeDropDown questionData={questionData}/>
