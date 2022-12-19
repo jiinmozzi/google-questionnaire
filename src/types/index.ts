@@ -3,7 +3,7 @@ export type QuestionItemType = {
     question : string,
     isRequired : boolean,
     options : string[] | null,
-    answer : string | string[],
+    answer : string | number[],
     id : number,
 }
 
