@@ -155,7 +155,20 @@ const questionnaireSlice = createSlice({
         updateViewPage : (state, action) => {
             const {page} = action.payload;
             state.viewPage = page;
-        }
+        },
+        resetQuesionnaireAnswers : (state) => {
+            state.questions.forEach((question : QuestionItemType | ExplanationItemType) => {
+                // when selected is not a explanation item
+                if (question.type !== EXPLANATION && typeof(question.answer) === "string"){
+                    question.answer = "";
+                    return;
+                }
+                if (question.type !== EXPLANATION && typeof(question.answer) !== "string"){
+                    question.answer = [];
+                    return;
+                }
+            })
+        },
     }
 })
 
@@ -178,5 +191,6 @@ export const {
     updateFocus,
     updateOption,
     updateViewPage,
+    resetQuesionnaireAnswers,
 } = questionnaireSlice.actions;
 export default questionnaireSlice.reducer;
