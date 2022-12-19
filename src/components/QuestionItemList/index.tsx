@@ -19,11 +19,6 @@ type QuestionnaireItemListType = {
 }
 
 const QuestionItemList = ({ questionnaire } : QuestionnaireItemListType) => {
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(createInitialQuestion());
-    }, [dispatch])
-
     return (
         <div id="question-item-list-wrapper">
             {questionnaire.questions.map((question : QuestionItemType | ExplanationItemType) => {
