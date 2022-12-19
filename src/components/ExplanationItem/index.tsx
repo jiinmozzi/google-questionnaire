@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Dispatch } from "redux";
 import { RootState } from "../../store/slices";
-import { copyQuestion, updateExplanationContent, updateExplanationTitle, updateFocus } from "../../store/slices/questionnaireSlice";
+import { copyQuestion, deleteQuestion, updateExplanationContent, updateExplanationTitle, updateFocus } from "../../store/slices/questionnaireSlice";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
 import FontStyleSelector from "../FontStyleSelector";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -40,6 +40,10 @@ const ExplanationItem = ({ questionnaire, questionData } : ExplanationItemPropsT
     const oncopyQuestion = ( e : React.MouseEvent ) => {
         dispatch(copyQuestion({id : questionData.id}));
     }
+
+    const onDeleteQuestion = ( e : React.MouseEvent ) => {
+        dispatch(deleteQuestion({id : questionData.id}))
+    }
     return (
         <form className="explanation-item-wrapper" onFocus={onUpdateFocus} onMouseDown={onClickUpdateFocus}>
             { questionnaire.focusedId === questionData.id &&  <div id="explanation-item-focused"></div>}
@@ -54,14 +58,13 @@ const ExplanationItem = ({ questionnaire, questionData } : ExplanationItemPropsT
                         value={ (questionData as ExplanationItemType).title }
                         placeholder="제목 없는 설문지"
                         type="text" 
-                        defaultValue="제목 없는 설문지"
                     />
                     {titleFocused && <FontStyleSelector />}
                     <div id="explanation-item-input-icons-wrapper">
                         <div className="explanation-item-input-icon" onClick={oncopyQuestion}>
                             <ContentCopyIcon className="explanation-item-input-icons"/>
                         </div>
-                        <div className="explanation-item-input-icon" >
+                        <div className="explanation-item-input-icon" onClick={onDeleteQuestion}>
                             <DeleteSweepRoundedIcon className="explanation-item-input-icons"/>
                         </div>
                         <div className="explanation-item-input-icon" id="deactivated-icon">
@@ -82,7 +85,7 @@ const ExplanationItem = ({ questionnaire, questionData } : ExplanationItemPropsT
                         onFocus={() => setExplanationFocused(true)} 
                         onChange={onUpdateExplanationContent}
                         value={(questionData as ExplanationItemType).explanation}
-                        placeholder="설문지 설명" 
+                        placeholder="설명 선택사항" 
                     />
                     {explanationFocused && <FontStyleSelector />}
                 </div>
@@ -97,8 +100,7 @@ const mapDispatchToProps = (dispatch : Dispatch) => {
         updateExplanationContent : (value : string, id : number) => dispatch(updateExplanationContent({value, id})),
         updateFocus : (id : number) => dispatch(updateFocus(id)),
         copyQuestion : (id : number) => dispatch(copyQuestion(id)),
-        // updateHeaderTitle : (value : string) => dispatch(updateHeaderTitle(value)),
-        // updateHeaderExplanation : (value : string) => dispatch(updateHeaderExplanation(value)),
+        deleteQuestion : (id : number) => dispatch(deleteQuestion(id)),
     }
 }
 
