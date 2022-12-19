@@ -76,14 +76,14 @@ const CheckBoxQuestion = ({ questionnaire, questionData } : CheckBoxQuestionProp
     return (
         <div className="checkbox-question-wrapper">
             {((questionData as QuestionItemType).options as string[]).map((option : string, idx : number) => {
-                return <CheckBoxQuestionChoice answer={(questionData as QuestionItemType).answer as number[]} questionnaire={questionnaire} idx={idx} id={questionData.id} options={ ((questionData as QuestionItemType).options) as string[] }/>    
+                return <CheckBoxQuestionChoice key={idx} answer={(questionData as QuestionItemType).answer as number[]} questionnaire={questionnaire} idx={idx} id={questionData.id} options={ ((questionData as QuestionItemType).options) as string[] }/>    
             })}
             { questionnaire.viewPage === HOME && questionData.id === questionnaire.focusedId && 
                 <div className="checkbox-add-indicator">
                     <CheckBoxOutlineBlankRoundedIcon className="choice-add-icon"/>    
                     <div className="choice-add-div">
                         <span id="add-option" onClick={onAddOption}>옵션 추가</span>&nbsp;
-                        {   !(questionData as QuestionItemType).options?.includes('기타...') &&
+                        {   !((questionData as QuestionItemType).options as string[])?.includes('기타...') &&
                             <>
                                 <span>또는</span>&nbsp;
                                 <span id="add-others" onClick={onAddOtherOption}>'기타' 추가</span>
