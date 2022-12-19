@@ -1,9 +1,9 @@
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { FormControl, MenuItem, Select } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
-import { HOME, PREVIEW } from '../../../constants';
+import { EMPTY, HOME, PREVIEW } from '../../../constants';
 import { RootState } from '../../../store/slices';
 import { addOption, addOtherOption, deleteOption, updateAnswer, updateOption } from '../../../store/slices/questionnaireSlice';
 import { SelectChangeEvent } from '@mui/material/Select';
@@ -23,6 +23,7 @@ type DropDownQuestionPropsType = {
     questionData : QuestionItemType | ExplanationItemType,
 }
 type DropDownSelectorPropsType = {
+    answer : number,
     id : number,
     options : string[],
     questionnaire : Questionnaire,
@@ -61,17 +62,23 @@ const DropDownQuestionChoice = ({ questionnaire, idx, id, options } : DropDownQu
 }
 
 // DropDown on PREVIEW Page and RESPONSE Page
-const DropDownSelector = ({ questionnaire, id, options } : DropDownSelectorPropsType) => {
+const DropDownSelector = ({ questionnaire, id, options, answer } : DropDownSelectorPropsType) => {
     const dispatch = useDispatch();
+    const [selectedValue, setSelectedValue] = useState<string>("선택");
+
     const onUpdateAnswer = (e : SelectChangeEvent) => {
+        setSelectedValue(e.target.value);
         dispatch(updateAnswer({ id , value : Number(e.target.value) }));
-    }
+    }   
+    useEffect(() => {
+        if (answer < 0) setSelectedValue("선택");
+    }, [answer])
 
     return (
         <FormControl sx={{ m: 1, minWidth: 120 }}>
         <Select
           onChange={onUpdateAnswer}
-          defaultValue="선택"
+          value={selectedValue || "선택"}
           displayEmpty
           inputProps={{ 'aria-label': 'Without label' }}
         >
@@ -79,7 +86,7 @@ const DropDownSelector = ({ questionnaire, id, options } : DropDownSelectorProps
             <em>선택</em>
           </MenuItem>
           {options.map((option : string, idx : number) => {
-            return <MenuItem value={String(idx)} key={idx}>{option}</MenuItem>
+            return <MenuItem className={String(idx)} value={option} key={idx}>{option}</MenuItem>
           })}
           
         </Select>
@@ -94,10 +101,10 @@ const DropDownQuestion = ({ questionnaire, questionData } : DropDownQuestionProp
     }
     return (
         <div className="dropdown-question-wrapper">
-            { questionnaire.viewPage !== HOME && <DropDownSelector id={questionData.id} options={((questionData as QuestionItemType).options as string[])} questionnaire={questionnaire}/> }
+            { questionnaire.viewPage !== HOME && <DropDownSelector answer={(questionData as QuestionItemType).answer as number} id={questionData.id} options={((questionData as QuestionItemType).options as string[])} questionnaire={questionnaire}/> }
 
             { questionnaire.viewPage === HOME && ((questionData as QuestionItemType).options as string[]).map((option : string, idx : number) => {
-                return <DropDownQuestionChoice questionnaire={questionnaire} idx={idx} id={questionData.id} options={ ((questionData as QuestionItemType).options) as string[] }/>
+                return <DropDownQuestionChoice key={idx} questionnaire={questionnaire} idx={idx} id={questionData.id} options={ ((questionData as QuestionItemType).options) as string[] }/>
             })}
 
             { questionnaire.viewPage === HOME && questionData.id === questionnaire.focusedId && 

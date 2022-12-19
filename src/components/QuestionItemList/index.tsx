@@ -25,17 +25,17 @@ const QuestionItemList = ({ questionnaire } : QuestionnaireItemListType) => {
                 
                 switch(question.type){
                     case EXPLANATION:
-                        return <ExplanationItem questionData={question}/>;
+                        return <ExplanationItem key={question.id} questionData={question}/>;
                     case SHORT:
-                        return <QuestionItem children={ <ShortQuestion questionData={question} /> }/>
+                        return <QuestionItem key={question.id} children={ <ShortQuestion questionData={question} /> }/>
                     case LONG:
-                        return <QuestionItem children={ <LongQuestion questionData={question}/> }/>
+                        return <QuestionItem key={question.id} children={ <LongQuestion questionData={question}/> }/>
                     case MULTIPLE:
-                        return <QuestionItem children={ <MultipleQuestion questionData={question} /> }/>
+                        return <QuestionItem key={question.id} children={ <MultipleQuestion questionData={question} /> }/>
                     case CHECKBOX:
-                        return <QuestionItem children={ <CheckBoxQuestion questionData={question} /> }/>
+                        return <QuestionItem key={question.id} children={ <CheckBoxQuestion questionData={question} /> }/>
                     case DROPDOWN:
-                        return <QuestionItem children={ <DropDownQuestion questionData={question} /> }/>
+                        return <QuestionItem key={question.id} children={ <DropDownQuestion questionData={question} /> }/>
                 }
                 return null;
                 

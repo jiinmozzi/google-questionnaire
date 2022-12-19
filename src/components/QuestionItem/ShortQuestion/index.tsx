@@ -24,7 +24,8 @@ const ShortQuestion = ({ questionnaire, questionData } : ShortQuestionPropsType)
                 type="text" 
                 className={ questionnaire.viewPage === HOME ? "short-question-input-readonly" : "short-question-input" } 
                 onChange={onUpdateAnswer}
-                defaultValue={ ((questionData as QuestionItemType).answer as string) }
+                value={((questionData as QuestionItemType).answer as string)}
+                // defaultValue={ ((questionData as QuestionItemType).answer as string) }
                 placeholder="단답형 텍스트"/>
         </div>
     )

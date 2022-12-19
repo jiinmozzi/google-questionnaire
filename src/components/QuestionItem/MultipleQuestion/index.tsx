@@ -69,7 +69,7 @@ const MultipleQuestion = ({ questionnaire, questionData } : MultipleQuestionProp
     return (
         <div className="multiple-question-wrapper">
             {((questionData as QuestionItemType).options as string[]).map((option : string, idx : number) => {
-                return <MultipleQuestionChoice answer={(questionData as QuestionItemType).answer as number} questionnaire={questionnaire} id={questionData.id} idx={idx} options={ ((questionData as QuestionItemType).options) as string[] }/>    
+                return <MultipleQuestionChoice key={idx} answer={(questionData as QuestionItemType).answer as number} questionnaire={questionnaire} id={questionData.id} idx={idx} options={ ((questionData as QuestionItemType).options) as string[] }/>    
             })}
             { questionnaire.viewPage === HOME && questionData.id === questionnaire.focusedId && 
             <div className="choice-add-indicator">

@@ -23,7 +23,7 @@ const LongQuestion = ({ questionnaire, questionData } : LongQuestionPropsType) =
                 type="text" 
                 className={ questionnaire.viewPage === HOME ? "long-question-input-readonly" : "long-question-input" }  
                 onChange={onUpdateAnswer}
-                defaultValue={ ((questionData as QuestionItemType).answer as string) }  
+                value={((questionData as QuestionItemType).answer as string)}
                 placeholder="장문형 텍스트"/>
         </div>
     )
