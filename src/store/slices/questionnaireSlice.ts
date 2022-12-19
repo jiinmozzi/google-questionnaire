@@ -61,6 +61,12 @@ const questionnaireSlice = createSlice({
             if (!item) return;
             if (item.options) item.options.push("");
         },
+        addOtherOption : (state, action) => {
+            const {id} = action.payload;
+            const item = state.questions.find((item : QuestionItemType | ExplanationItemType) => item.id === Number(id)) as QuestionItemType;
+            if (!item) return;
+            if (item.options) item.options.push("기타...");
+        },
         updateOption : (state, action) => {
             const {idx, id, value} = action.payload;
             const item = state.questions.find((item : QuestionItemType | ExplanationItemType) => item.id === Number(id)) as QuestionItemType;
@@ -154,6 +160,7 @@ export const {
     deleteQuestion,
     toggleRequired,
     addOption,
+    addOtherOption,
     updateQuestionType,
     deleteOption,
     createQuestion,

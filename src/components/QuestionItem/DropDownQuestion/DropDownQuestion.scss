@@ -6,13 +6,14 @@ $main-color : rgb(103,58,182);
         display : flex;
         align-items : center;
         position : relative;
-        .choice-add-icon{
+        
+        .dropdown-add-icon{
             color : rgb(95,99,103);
             margin-right : 20px;
         }
-        .choice-add-div{
+        .dropdown-add-div{
             height : 100%;
-            width : 50%;
+            // width : 50%;
             display : flex;
             align-items: center;
             padding : 10px 0;
@@ -22,8 +23,10 @@ $main-color : rgb(103,58,182);
             border-bottom : 2px solid #fff;
             transition : 0.3s ease-in-out;
             font-size : 14px;
+            margin-left : 15px;
             #add-option{
                 color : rgb(95,99,103);
+                
                 &:hover{
                     cursor : pointer;
                 }
@@ -35,7 +38,7 @@ $main-color : rgb(103,58,182);
                 }
             }
             &:hover{
-                border-bottom : 2px solid rgb(95, 99, 103);
+                border-bottom : 2px solid rgba(95, 99, 103, 0.3);
             }
         }
     }

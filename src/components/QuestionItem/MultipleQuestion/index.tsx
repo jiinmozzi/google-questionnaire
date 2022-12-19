@@ -7,7 +7,7 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { connect, useDispatch } from 'react-redux';
 import { RootState } from '../../../store/slices';
-import { addOption, deleteOption, updateOption } from '../../../store/slices/questionnaireSlice';
+import { addOption, addOtherOption, deleteOption, updateOption } from '../../../store/slices/questionnaireSlice';
 
 type MultipleQuestionChoicePropsType = {
     id : number,
@@ -40,6 +40,7 @@ const MultipleQuestionChoice = ( {idx, id, options} : MultipleQuestionChoiceProp
                 className="multiple-question-input" 
                 type="text" 
                 onChange={onUpdateOption}
+                readOnly = { options[idx] === '기타...' }
                 value={ options[idx] }
                 id={`choice-${idx}`} 
                 placeholder={`옵션 ${idx+1}`}
@@ -54,7 +55,9 @@ const MultipleQuestion = ({ questionData } : MultipleQuestionPropsType) => {
     const onAddOption = (e : React.MouseEvent) => {
         dispatch(addOption({ id : questionData.id }));
     }
-
+    const onAddOtherOption = ( e : React.MouseEvent ) => {
+        dispatch(addOtherOption({ id : questionData.id }));
+    }   
     return (
         <div className="multiple-question-wrapper">
             {((questionData as QuestionItemType).options as string[]).map((option : string, idx : number) => {
@@ -65,8 +68,12 @@ const MultipleQuestion = ({ questionData } : MultipleQuestionPropsType) => {
                 <RadioButtonUncheckedIcon className="choice-add-icon"/>    
                 <div className="choice-add-div">
                     <span id="add-option" onClick={onAddOption}>옵션 추가</span>&nbsp;
-                    <span>또는</span>&nbsp;
-                    <span id="add-others">'기타' 추가</span>
+                    {   !(questionData as QuestionItemType).options?.includes('기타...') &&
+                        <>
+                            <span>또는</span>&nbsp;
+                            <span id="add-others" onClick={onAddOtherOption}>'기타' 추가</span>
+                        </>
+                    }
                 </div>
             </div>
         </div>
@@ -76,6 +83,7 @@ const MultipleQuestion = ({ questionData } : MultipleQuestionPropsType) => {
 const mapDispatchToProps = (dispatch : Dispatch) => {
     return {
         addOption : (id : number) => dispatch(addOption(id)),
+        addOtherOption : (id : number) => dispatch(addOtherOption(id)),
         deleteOption : (idx : number, id : number) => dispatch(deleteOption({idx, id})),
         updateOption : (idx : number, id : number, value : string) => dispatch(updateOption({idx, id, value}))
     }

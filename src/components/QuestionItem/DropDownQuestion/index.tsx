@@ -1,8 +1,9 @@
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import React from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RootState } from '../../../store/slices';
-import { addOption, deleteOption, updateOption } from '../../../store/slices/questionnaireSlice';
+import { addOption, addOtherOption, deleteOption, updateOption } from '../../../store/slices/questionnaireSlice';
 
 import { ExplanationItemType, QuestionItemType } from '../../../types';
 import "./DropDownQuestion.scss";
@@ -32,7 +33,7 @@ const DropDownQuestionChoice = ({idx, id, options} : DropDownQuestionChoiceProps
     return (
         <div className="dropdown-question-choice-wrapper">
             <label 
-                htmlFor={`choice-${idx}`} 
+                htmlFor={`dropdown-${idx}`} 
                 className="dropdown-question-label">
                 {idx + 1}
             </label>
@@ -60,10 +61,13 @@ const DropDownQuestion = ({questionData} : DropDownQuestionPropsType) => {
                 return <DropDownQuestionChoice idx={idx} id={questionData.id} options={ ((questionData as QuestionItemType).options) as string[] }/>
             })}
             <div className="dropdown-add-indicator">
-                <div className="choice-add-div">
+                <label 
+                    htmlFor={`dropdown-${((questionData as QuestionItemType).options as string[]).length}`} 
+                    className="dropdown-question-label">
+                    {((questionData as QuestionItemType).options as string[]).length + 1}
+                </label>
+                <div className="dropdown-add-div">
                     <span id="add-option" onClick={onAddOption}>옵션 추가</span>&nbsp;
-                    <span>또는</span>&nbsp;
-                    <span id="add-others">'기타' 추가</span>
                 </div>
             </div>
         </div>
@@ -73,6 +77,7 @@ const DropDownQuestion = ({questionData} : DropDownQuestionPropsType) => {
 const mapDispatchToProps = (dispatch : Dispatch) => {
     return {
         addOption : (id : number) => dispatch(addOption(id)),
+        addOtherOption : (id : number) => dispatch(addOtherOption(id)),
         deleteOption : (idx : number, id : number) => dispatch(deleteOption({idx, id})),
         updateOption : (idx : number, id : number, value : string) => dispatch(updateOption({idx, id, value}))
     }
