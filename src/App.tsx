@@ -19,7 +19,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/preview" element={<Preview />}></Route>
-          <Route path="/repsonse" element={<Response />}></Route>
+          <Route path="/resㅔonse" element={<Response />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

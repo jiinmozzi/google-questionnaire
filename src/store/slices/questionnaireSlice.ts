@@ -203,8 +203,8 @@ const questionnaireSlice = createSlice({
                     return;
                 }
                 // when selected is either MULTIPLE or DROPDOWN
-                if (question.type !== EXPLANATION && typeof(question.answer) !== "string"){
-                    question.answer = EMPTY
+                if (question.type !== EXPLANATION && typeof(question.answer) === "number"){
+                    question.answer = EMPTY;
                     return;
                 }
 
