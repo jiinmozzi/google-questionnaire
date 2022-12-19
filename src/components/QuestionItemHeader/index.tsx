@@ -8,6 +8,7 @@ import { RootState } from "../../store/slices";
 import { connect, useDispatch } from "react-redux";
 import { updateQuestionText } from "../../store/slices/questionnaireSlice";
 import { HOME } from "../../constants";
+import FontStyleSelector from "../FontStyleSelector";
 
 type QuestionItemHeaderPropsType = {
     questionnaire : Questionnaire
@@ -16,7 +17,6 @@ type QuestionItemHeaderPropsType = {
 
 const QuestionItemHeader = ({ questionData, questionnaire } : QuestionItemHeaderPropsType ) => {
     const dispatch = useDispatch();
-    const [focused, setFocused] = useState<boolean>(false); 
     const onUpdateQuestionText = (e : React.ChangeEvent) => {
         const target = e.target as HTMLInputElement;
         dispatch(updateQuestionText({id : questionData.id, value : target.value}));
@@ -27,13 +27,15 @@ const QuestionItemHeader = ({ questionData, questionnaire } : QuestionItemHeader
             <div className="question-title-wrapper">
                 { questionnaire.viewPage === HOME && questionData.id === questionnaire.focusedId ? 
                 <input 
-                    type="text" 
-                    className="question-title-input" 
+                    type="text"
+                    className="question-title-input"
                     placeholder="질문"
                     onChange={onUpdateQuestionText}
                     defaultValue={(questionData as QuestionItemType).question}
                 /> : 
-                <div className="unfocused-item-title">{(questionData as QuestionItemType).question || "질문"}</div>
+                <div className="unfocused-item-title">{(questionData as QuestionItemType).question || "질문"} 
+                    { questionData.isRequired && <span className="asterisk">{ questionData.isRequired && " *"}</span>}
+                </div>
                 }
             </div>
             { questionnaire.viewPage === HOME && questionData.id === questionnaire.focusedId && 
