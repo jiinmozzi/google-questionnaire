@@ -8,3 +8,4 @@ export const HEADER = -2 as const;
 export const HOME = "home" as const;
 export const PREVIEW = "preview" as const;
 export const RESPONSE = "response" as const;
+export const EMPTY = -1 as const;

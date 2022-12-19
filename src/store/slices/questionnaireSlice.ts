@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CHECKBOX, DROPDOWN, EXPLANATION, HEADER, HOME, LONG, MULTIPLE, SHORT } from "../../constants";
+import { CHECKBOX, DROPDOWN, EMPTY, EXPLANATION, HEADER, HOME, LONG, MULTIPLE, SHORT } from "../../constants";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
 const initialQuestionnaireState : Questionnaire = {
     header : {
@@ -91,8 +91,22 @@ const questionnaireSlice = createSlice({
             }   else {
                 item.options = null;
             }
-            if (type === CHECKBOX){
-                item.answer = [];
+            switch (type){
+                case CHECKBOX:
+                    item.answer = [];
+                    break;
+                case DROPDOWN:
+                    item.answer = EMPTY;
+                    break;
+                case MULTIPLE:
+                    item.answer = EMPTY;
+                    break;
+                case SHORT:
+                    item.answer = "";
+                    break;
+                case LONG:
+                    item.answer = "";
+                    break;
             }
         },
         createQuestion : (state) => {
@@ -146,16 +160,16 @@ const questionnaireSlice = createSlice({
 
             // 질문의 답이 하나일 경우
             if (typeof(item.answer) === 'string'){
-                item.answer = String(value);
-                return;
-            }
-            
-            // 질문의 답이 여러가지인 경우 (체크박스) 
-            const answerIndex = item.answer.indexOf(value);
-            if (answerIndex === -1){
-                item.answer.push(value);
+                item.answer = value;
+            }   else if (typeof item.answer === 'number'){
+                item.answer = value;
             }   else {
-                item.answer.splice(answerIndex, 1);
+                const answerIndex = item.answer.indexOf(value);
+                if (answerIndex === -1){
+                    item.answer.push(value);
+                }   else {
+                    item.answer.splice(answerIndex, 1);
+                }
             }
         },
 
@@ -183,15 +197,19 @@ const questionnaireSlice = createSlice({
         },
         resetQuesionnaireAnswers : (state) => {
             state.questions.forEach((question : QuestionItemType | ExplanationItemType) => {
-                // when selected is not a explanation item
+                // when selected is either SHORT or LONG
                 if (question.type !== EXPLANATION && typeof(question.answer) === "string"){
                     question.answer = "";
                     return;
                 }
+                // when selected is either MULTIPLE or DROPDOWN
                 if (question.type !== EXPLANATION && typeof(question.answer) !== "string"){
-                    question.answer = [];
+                    question.answer = EMPTY
                     return;
                 }
+
+                // when CHECKBOX
+                if (question.type !== EXPLANATION)  question.answer = [];
             })
         },
     }
