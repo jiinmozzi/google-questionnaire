@@ -9,6 +9,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteSweepRoundedIcon from '@mui/icons-material/DeleteSweepRounded';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import "./ExplanationItem.scss";
+import { HOME } from "../../constants";
 
 type ExplanationItemPropsType = {
     questionData : QuestionItemType | ExplanationItemType,
@@ -46,20 +47,22 @@ const ExplanationItem = ({ questionnaire, questionData } : ExplanationItemPropsT
     }
     return (
         <form className="explanation-item-wrapper" onFocus={onUpdateFocus} onMouseDown={onClickUpdateFocus}>
-            { questionnaire.focusedId === questionData.id &&  <div id="explanation-item-focused"></div>}
+            { questionnaire.viewPage === HOME && questionnaire.focusedId === questionData.id &&  <div id="explanation-item-focused"></div>}
             <div id="explanation-item-content">
                 <div className="explanation-item-input-wrapper">
                     <input 
-                        className="explanation-item-input" 
+                        className={questionnaire.viewPage === HOME ? "explanation-item-input" : "explanation-item-input explanation-item-input-readonly"}
                         id="explanation-item-title" 
                         onBlur={() => setTitleFocused(false)} 
                         onFocus={() => setTitleFocused(true)} 
+                        readOnly={questionnaire.viewPage !== HOME}
                         onChange={onUpdateExplanationTitle}
                         value={ (questionData as ExplanationItemType).title }
                         placeholder="제목 없는 설문지"
                         type="text" 
                     />
-                    {titleFocused && <FontStyleSelector />}
+                    {questionnaire.viewPage === HOME && titleFocused && <FontStyleSelector />}
+                    { questionnaire.viewPage === HOME && 
                     <div id="explanation-item-input-icons-wrapper">
                         <div className="explanation-item-input-icon" onClick={oncopyQuestion}>
                             <ContentCopyIcon className="explanation-item-input-icons"/>
@@ -70,24 +73,25 @@ const ExplanationItem = ({ questionnaire, questionData } : ExplanationItemPropsT
                         <div className="explanation-item-input-icon" id="deactivated-icon">
                             <MoreVertIcon className="explanation-item-input-icons"/>
                         </div>
-                        
                     </div>
+                    }
                 </div>
                 
                 
                 
                 <div className="explanation-item-input-wrapper">
                     <input 
-                        className="explanation-item-input" 
+                        className={questionnaire.viewPage === HOME ? "explanation-item-input" : "explanation-item-input explanation-item-input-readonly"}
                         id="explanation-item-explanation" 
                         type="text" 
                         onBlur={() => setExplanationFocused(false)} 
                         onFocus={() => setExplanationFocused(true)} 
                         onChange={onUpdateExplanationContent}
+                        readOnly={questionnaire.viewPage !== HOME}
                         value={(questionData as ExplanationItemType).explanation}
                         placeholder="설명 선택사항" 
                     />
-                    {explanationFocused && <FontStyleSelector />}
+                    {questionnaire.viewPage === HOME && explanationFocused && <FontStyleSelector />}
                 </div>
             </div>
         </form>

@@ -70,6 +70,15 @@ $gray-color : rgb(95,99,103);
                     border-bottom : 2px solid $main-color;
                 }
             }
+            .explanation-item-input-readonly{
+                border-bottom : 2px solid #fff;
+                &:hover{
+                    border-bottom : 2px solid #fff;
+                }
+                &:focus{
+                    border-bottom : 2px solid #fff;
+                }
+            }
             #explanation-item-title{
                 font-size : 24px;
                 margin-top : 24px;
