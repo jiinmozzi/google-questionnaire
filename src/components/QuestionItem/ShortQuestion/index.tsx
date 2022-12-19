@@ -1,7 +1,7 @@
 import React from "react";
 import { connect, useDispatch } from "react-redux";
 import { Dispatch } from "redux";
-import { HOME } from "../../../constants";
+import { HOME, PREVIEW } from "../../../constants";
 import { RootState } from "../../../store/slices";
 import { updateAnswer } from "../../../store/slices/questionnaireSlice";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../../types";
@@ -22,9 +22,10 @@ const ShortQuestion = ({ questionnaire, questionData } : ShortQuestionPropsType)
         <div className="short-question-wrapper">
             <input 
                 type="text" 
-                className={ questionnaire.viewPage === HOME ? "short-question-input-readonly" : "short-question-input" } 
+                className={ questionnaire.viewPage !== PREVIEW ? "short-question-input-readonly" : "short-question-input" } 
                 onChange={onUpdateAnswer}
                 value={((questionData as QuestionItemType).answer as string)}
+                readOnly={ questionnaire.viewPage !== PREVIEW}
                 // defaultValue={ ((questionData as QuestionItemType).answer as string) }
                 placeholder="단답형 텍스트"/>
         </div>

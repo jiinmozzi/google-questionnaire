@@ -1,6 +1,13 @@
 $main-color : rgb(103,58,182);
 
 #preview-wrapper{
+    .complement-alert{
+        position : fixed;
+        z-index : 2;
+        left : 0;
+        top : 0;
+        width : 100%;
+    }
     #preview-form{
         width: 768px;
         margin : 0 auto;
@@ -8,6 +15,8 @@ $main-color : rgb(103,58,182);
             display : flex;
             justify-content: space-between;
             align-items : center;
+            position : relative;
+            padding-bottom : 100px;
             #preview-submit-btn{
                 outline : none;
                 margin-top : 20px;
@@ -38,6 +47,7 @@ $main-color : rgb(103,58,182);
                     background-color : rgba(103, 58, 182, 0.1);
                 }
             }
+            
         }
     }
 }

@@ -67,8 +67,10 @@ const DropDownSelector = ({ questionnaire, id, options, answer } : DropDownSelec
     const [selectedValue, setSelectedValue] = useState<string>("선택");
 
     const onUpdateAnswer = (e : SelectChangeEvent) => {
-        setSelectedValue(e.target.value);
-        dispatch(updateAnswer({ id , value : Number(e.target.value) }));
+        if ( questionnaire.viewPage === PREVIEW ){
+            setSelectedValue(e.target.value);
+            dispatch(updateAnswer({ id , value : options.indexOf(e.target.value) }));
+        }
     }   
     useEffect(() => {
         if (answer < 0) setSelectedValue("선택");
@@ -78,15 +80,16 @@ const DropDownSelector = ({ questionnaire, id, options, answer } : DropDownSelec
         <FormControl sx={{ m: 1, minWidth: 120 }}>
         <Select
           onChange={onUpdateAnswer}
-          value={selectedValue || "선택"}
+          value={options[answer] || "선택"}
           displayEmpty
           inputProps={{ 'aria-label': 'Without label' }}
+          readOnly={ questionnaire.viewPage !== PREVIEW }
         >
           <MenuItem disabled value="선택">
             <em>선택</em>
           </MenuItem>
           {options.map((option : string, idx : number) => {
-            return <MenuItem className={String(idx)} value={option} key={idx}>{option}</MenuItem>
+            return <MenuItem id={String(idx)} value={option} key={idx}>{option}</MenuItem>
           })}
           
         </Select>

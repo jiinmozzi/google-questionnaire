@@ -1,6 +1,6 @@
 import { connect, useDispatch } from "react-redux";
 import { Dispatch } from "redux";
-import { HOME } from "../../../constants";
+import { HOME, PREVIEW } from "../../../constants";
 import { RootState } from "../../../store/slices";
 import { updateAnswer } from "../../../store/slices/questionnaireSlice";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../../types";
@@ -21,9 +21,10 @@ const LongQuestion = ({ questionnaire, questionData } : LongQuestionPropsType) =
         <div className="long-question-wrapper">
             <input 
                 type="text" 
-                className={ questionnaire.viewPage === HOME ? "long-question-input-readonly" : "long-question-input" }  
+                className={ questionnaire.viewPage !== PREVIEW ? "long-question-input-readonly" : "long-question-input" }  
                 onChange={onUpdateAnswer}
                 value={((questionData as QuestionItemType).answer as string)}
+                readOnly={ questionnaire.viewPage !== PREVIEW}
                 placeholder="장문형 텍스트"/>
         </div>
     )

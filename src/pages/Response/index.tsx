@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Dispatch } from "redux";
+import Header from "../../components/Header";
+import QuestionItemList from "../../components/QuestionItemList";
 import { RESPONSE } from "../../constants";
 import { RootState } from "../../store/slices";
 import { updateViewPage } from "../../store/slices/questionnaireSlice";
@@ -12,7 +14,10 @@ const Response = () => {
         dispatch(updateViewPage({ page : RESPONSE }))
     }, [dispatch])
     return (
-        <div id="response-wrapper"></div>
+        <div id="response-wrapper">
+            <Header />
+            <QuestionItemList />
+        </div>
     )
 }
 
