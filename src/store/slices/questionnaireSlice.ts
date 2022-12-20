@@ -212,6 +212,12 @@ const questionnaireSlice = createSlice({
                 if (question.type !== EXPLANATION)  question.answer = [];
             })
         },
+        updateDragAndDrop : (state, action) => {
+            const {draggedIndex, draggedOverIndex} = action.payload;
+            const item = state.questions[draggedIndex];
+            state.questions.splice(draggedIndex, 1);
+            state.questions.splice(draggedOverIndex, 0, item);
+        }
     }
 })
 
@@ -236,5 +242,6 @@ export const {
     updateOption,
     updateViewPage,
     resetQuesionnaireAnswers,
+    updateDragAndDrop,
 } = questionnaireSlice.actions;
 export default questionnaireSlice.reducer;
