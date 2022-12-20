@@ -1,3 +1,9 @@
 #question-item-list-wrapper{
     margin : 0 auto;   
 }
+
+@media (max-width : 768px){
+    #question-item-list-wrapper{
+        margin : 20px 0;
+    }
+}

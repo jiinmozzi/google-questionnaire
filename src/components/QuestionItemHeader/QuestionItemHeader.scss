@@ -39,3 +39,21 @@ $gray-color : rgb(95,99,103);
         }
     }
 }
+
+@media (max-width : 768px){
+    .question-item-header-wrapper{
+        .photo-disabled{
+            display : none;
+        }    
+    }
+}
+
+@media (max-width : 600px){
+    .question-item-header-wrapper{
+        display : flex;
+        flex-direction: column;
+        justify-content: align-items;
+        align-items: flex-start;
+        gap : 30px;
+    }
+}
