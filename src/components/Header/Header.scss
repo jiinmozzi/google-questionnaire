@@ -73,6 +73,11 @@ $gray-color : rgb(95,99,103);
                 margin-bottom : 24px;
                 padding-bottom : 3px;
             }
+            #necessary-indicator {
+                margin-bottom : 20px;
+                font-size : 13px;
+                color : red;
+            }
         }
     }
 }

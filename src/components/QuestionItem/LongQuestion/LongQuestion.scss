@@ -17,7 +17,7 @@ $gray-color : rgb(95,99,103);
         outline : none;
         border : none;
         padding-bottom : 5px;
-        border-bottom : 1px solid black;
+        border-bottom : 1px solid $gray-color;
         color : rgb(95,99,103);
         transition : 0.3s ease-in-out;
         &:focus{

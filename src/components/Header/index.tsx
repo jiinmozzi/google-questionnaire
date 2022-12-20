@@ -65,6 +65,7 @@ const Header = ({ questionnaire } : HeaderPropsType) => {
                         placeholder="설문지 설명" 
                     />
                     {explanationFocused && questionnaire.viewPage === HOME && <FontStyleSelector />}
+                    { questionnaire.viewPage !== HOME && <div id="necessary-indicator">필수 항목 *</div> }
                 </div>
             </div>
         </form>
