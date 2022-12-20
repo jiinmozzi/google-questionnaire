@@ -6,7 +6,7 @@ import DriveFileMoveOutlinedIcon from '@mui/icons-material/DriveFileMoveOutlined
 import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import "./SideBar.scss";
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Dispatch } from 'redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../store/slices';
@@ -18,7 +18,6 @@ const SideBar = () => {
     const [showPreviewToolTip, setShowPreviewToolTip] = useState<boolean>(false);
     const [showCreateQuestionToolTip, setShowCreateQuestionToolTip] = useState<boolean>(false);
     const [showAddTitleToolTip, setShowAddTitleToolTip] = useState<boolean>(false);
-    const [sideBarPosition, setSideBarPosition] = useState<number>(0);
     
     const onCreateQuestion = (e : React.MouseEvent) => {
         dispatch(createQuestion());

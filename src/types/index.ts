@@ -18,6 +18,8 @@ export type ExplanationItemType = {
 export type QuestionnaireHeader = {
     title : string,
     explanation : string,
+    titleStyles : string[],
+    explanationStyles : string[],
 }
 
 export type Questionnaire = {

@@ -11,7 +11,15 @@ $gray-color : rgb(95,99,103);
     box-shadow : 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
     background-color : #fff;
     position : relative;
-
+    .explanation-item-drag-icon{
+        display : flex;
+        justify-content: center;
+        align-items: center;
+        &:hover{
+            cursor : move;
+            opacity : 0.3;
+        }
+    }
     #explanation-item-focused{
         width : 6px;
         height : 100%;

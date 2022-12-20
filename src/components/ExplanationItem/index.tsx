@@ -61,7 +61,6 @@ const ExplanationItem = ({ questionnaire, questionData } : ExplanationItemPropsT
                         placeholder="제목 없는 설문지"
                         type="text" 
                     />
-                    {questionnaire.viewPage === HOME && titleFocused && <FontStyleSelector />}
                     { questionnaire.viewPage === HOME && 
                     <div id="explanation-item-input-icons-wrapper">
                         <div className="explanation-item-input-icon" onClick={oncopyQuestion}>
@@ -91,7 +90,6 @@ const ExplanationItem = ({ questionnaire, questionData } : ExplanationItemPropsT
                         value={(questionData as ExplanationItemType).explanation}
                         placeholder="설명 선택사항" 
                     />
-                    {questionnaire.viewPage === HOME && explanationFocused && <FontStyleSelector />}
                 </div>
             </div>
         </form>

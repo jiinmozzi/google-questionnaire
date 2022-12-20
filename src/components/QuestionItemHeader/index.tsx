@@ -8,7 +8,6 @@ import { RootState } from "../../store/slices";
 import { connect, useDispatch } from "react-redux";
 import { updateQuestionText } from "../../store/slices/questionnaireSlice";
 import { HOME } from "../../constants";
-import FontStyleSelector from "../FontStyleSelector";
 
 type QuestionItemHeaderPropsType = {
     questionnaire : Questionnaire

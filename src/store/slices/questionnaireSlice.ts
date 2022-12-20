@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CHECKBOX, DROPDOWN, EMPTY, EXPLANATION, HEADER, HOME, LONG, MULTIPLE, SHORT } from "../../constants";
+import { CHECKBOX, DROPDOWN, EMPTY, EXPLANATION, HEADER, HEADEREXPLANATION, HOME, LONG, MULTIPLE, SHORT } from "../../constants";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
 const initialQuestionnaireState : Questionnaire = {
     header : {
         title : "제목 없는 설문지",
-        explanation : ""
+        explanation : "",
+        titleStyles : [],
+        explanationStyles : [],
     },
     questions : [],
     focusedId : HEADER,
@@ -217,6 +219,38 @@ const questionnaireSlice = createSlice({
             const item = state.questions[draggedIndex];
             state.questions.splice(draggedIndex, 1);
             state.questions.splice(draggedOverIndex, 0, item);
+        },
+        updateHeaderStyles : (state, action) => {
+            const {id, option} = action.payload;
+            
+            if (id === HEADER){
+                if (state.header.titleStyles.includes(option)){
+                    state.header.titleStyles = state.header.titleStyles.filter((style : string) => style !== option);
+                }   else {
+                    state.header.titleStyles.push(option);
+                }
+                return;
+            }   
+
+            if (id === HEADEREXPLANATION){
+                if (state.header.explanationStyles.includes(option)){
+                    state.header.explanationStyles = state.header.explanationStyles.filter((style : string) => style !== option);
+                }   else {
+                    state.header.explanationStyles.push(option);
+                }
+                return;
+            }
+        },
+        resetHeaderStyles : (state, action) => {
+            const {id} = action.payload;
+            if (id === HEADER){
+                state.header.titleStyles = [];
+                return
+            }
+            if (id === HEADEREXPLANATION){
+                state.header.explanationStyles = [];
+                return
+            }
         }
     }
 })
@@ -243,5 +277,7 @@ export const {
     updateViewPage,
     resetQuesionnaireAnswers,
     updateDragAndDrop,
+    updateHeaderStyles,
+    resetHeaderStyles
 } = questionnaireSlice.actions;
 export default questionnaireSlice.reducer;

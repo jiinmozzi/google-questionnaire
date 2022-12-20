@@ -1,5 +1,5 @@
 $focus-color : rgb(66,132,243);
-
+$gray-color : rgb(95,99,103);
 .question-item-wrapper{
     width :  768px;
     margin : 0 auto;
@@ -12,7 +12,15 @@ $focus-color : rgb(66,132,243);
     position : relative;
     .question-item-icon{
         display : flex;
-        
+    }
+    .question-item-drag-icon{
+        display : flex;
+        justify-content : center;
+        align-items: center;
+        color : $gray-color;
+        &:hover{
+            cursor : move;
+        }
     }
     .question-item-focused{
         width : 6px;
@@ -28,5 +36,12 @@ $focus-color : rgb(66,132,243);
         gap : 10px;
         width :100%;
         padding : 0 24px;
+    }
+}
+
+@media screen and (max-width : 768px){
+    .question-item-wrapper{
+        width : 100%;
+        margin : 20px 0;
     }
 }
