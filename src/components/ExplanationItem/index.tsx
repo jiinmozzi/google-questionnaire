@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect, useDispatch } from "react-redux";
 import { Dispatch } from "redux";
 import { RootState } from "../../store/slices";
 import { copyQuestion, deleteQuestion, updateExplanationContent, updateExplanationTitle, updateFocus } from "../../store/slices/questionnaireSlice";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
-import FontStyleSelector from "../FontStyleSelector";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DeleteSweepRoundedIcon from '@mui/icons-material/DeleteSweepRounded';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -18,8 +17,6 @@ type ExplanationItemPropsType = {
 
 const ExplanationItem = ({ questionnaire, questionData } : ExplanationItemPropsType) => {
     const dispatch = useDispatch();
-    const [titleFocused, setTitleFocused] = useState<boolean>(false);
-    const [explanationFocused, setExplanationFocused] = useState<boolean>(false);
     const onUpdateExplanationTitle = (e : React.ChangeEvent) => {
         const target = e.target as HTMLInputElement;
         dispatch(updateExplanationTitle({ value : target.value, id : questionData.id }))
@@ -53,8 +50,6 @@ const ExplanationItem = ({ questionnaire, questionData } : ExplanationItemPropsT
                     <input 
                         className={questionnaire.viewPage === HOME ? "explanation-item-input" : "explanation-item-input explanation-item-input-readonly"}
                         id="explanation-item-title" 
-                        onBlur={() => setTitleFocused(false)} 
-                        onFocus={() => setTitleFocused(true)} 
                         readOnly={questionnaire.viewPage !== HOME}
                         onChange={onUpdateExplanationTitle}
                         value={ (questionData as ExplanationItemType).title }
@@ -83,8 +78,6 @@ const ExplanationItem = ({ questionnaire, questionData } : ExplanationItemPropsT
                         className={questionnaire.viewPage === HOME ? "explanation-item-input" : "explanation-item-input explanation-item-input-readonly"}
                         id="explanation-item-explanation" 
                         type="text" 
-                        onBlur={() => setExplanationFocused(false)} 
-                        onFocus={() => setExplanationFocused(true)} 
                         onChange={onUpdateExplanationContent}
                         readOnly={questionnaire.viewPage !== HOME}
                         value={(questionData as ExplanationItemType).explanation}

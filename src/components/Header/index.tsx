@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { Dispatch } from "redux";
 import { BOLD, HEADER, HEADEREXPLANATION, HOME, ITALIC, PREVIEW, RESPONSE, UNDERLINE } from "../../constants";
 import { RootState } from "../../store/slices";

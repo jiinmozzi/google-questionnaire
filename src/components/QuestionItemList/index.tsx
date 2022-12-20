@@ -1,8 +1,7 @@
 import "./QuestionItemList.scss";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import { RootState } from "../../store/slices";
 import { Dispatch } from "redux";
-import { useEffect } from "react";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
 import ShortQuestion from "../QuestionItem/ShortQuestion";
 import LongQuestion from "../QuestionItem/LongQuestion";

@@ -1,7 +1,7 @@
 import QuestionTypeDropDown from "../QuestionTypeDropDown";
 import InsertPhotoOutlinedIcon from '@mui/icons-material/InsertPhotoOutlined';
 import "./QuestionItemHeader.scss";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
 import { Dispatch } from "redux";
 import { RootState } from "../../store/slices";

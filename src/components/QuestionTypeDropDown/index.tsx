@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Dispatch } from 'redux';
-import { Theme, useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -18,9 +17,6 @@ import { CHECKBOX, DROPDOWN, LONG, MULTIPLE, SHORT } from '../../constants';
 import { RootState } from '../../store/slices';
 import { connect, useDispatch } from 'react-redux';
 import { updateQuestionType } from '../../store/slices/questionnaireSlice';
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
 
 type QuestionTypeDropDownPropsType = {
   questionData : QuestionItemType | ExplanationItemType
