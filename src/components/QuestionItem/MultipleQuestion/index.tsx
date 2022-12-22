@@ -41,7 +41,7 @@ const MultipleQuestionChoice = ( {questionnaire, idx, id, options, answer} : Mul
     return (
         <div className="multiple-question-choice-wrapper" onClick={onUpdateAnswer}>
             <label htmlFor={`multiple-${idx}`} className="multiple-question-label">
-                { answer !== idx ? <RadioButtonUncheckedIcon className="multiple-question-mark"/> : <RadioButtonCheckedRoundedIcon className="multiple-question-mark"/>}
+                { (answer !== idx || questionnaire.viewPage === HOME) ? <RadioButtonUncheckedIcon className="multiple-question-mark"/> : <RadioButtonCheckedRoundedIcon className="multiple-question-mark"/>}
             </label>
             {/* <RadioButtonUncheckedIcon className="multiple-question-mark"/> */}
             <input 

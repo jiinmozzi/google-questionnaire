@@ -43,7 +43,7 @@ const CheckBoxQuestionChoice = ({ answer, questionnaire, idx, id, options } : Ch
     return (
         <div className="checkbox-question-choice-wrapper" onClick={onUpdateAnswer}>
             <label htmlFor={`checkbox-${idx}`} className="checkbox-question-label">
-                {  answer.includes(idx) ? <CheckBoxRoundedIcon onClick={onUpdateAnswer} className="checkbox-question-mark"/> 
+                { (answer.includes(idx) && questionnaire.viewPage !== HOME ) ? <CheckBoxRoundedIcon onClick={onUpdateAnswer} className="checkbox-question-mark"/> 
                     : <CheckBoxOutlineBlankRoundedIcon onClick={onUpdateAnswer} className="checkbox-question-mark"/> 
                 }
             </label>
