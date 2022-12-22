@@ -1,6 +1,5 @@
 import QuestionItemHeader from "../QuestionItemHeader";
 import QuestionItemFooter from "../QuestionItemFooter";
-
 import "./QuestionItem.scss";
 import { ReactNode, useEffect, useState } from "react";
 import React from "react";
@@ -10,13 +9,17 @@ import { RootState } from "../../store/slices";
 import { updateFocus } from "../../store/slices/questionnaireSlice";
 import { connect, useDispatch } from "react-redux";
 import { HOME } from "../../constants";
+import { Draggable } from "react-beautiful-dnd";
+
+import DragHandleIcon from '@mui/icons-material/DragHandle';
 
 type QuestionItemPropsType = {
     children : ReactNode,
     questionnaire : Questionnaire
+    idx : number,
 }
 
-const QuestionItem = ({ questionnaire, children } : QuestionItemPropsType) => {
+const QuestionItem = ({ questionnaire, children, idx } : QuestionItemPropsType) => {
     const dispatch = useDispatch();
     const [questionData, setQuestionData] = useState<QuestionItemType>({
         type : "long",
@@ -39,14 +42,19 @@ const QuestionItem = ({ questionnaire, children } : QuestionItemPropsType) => {
         dispatch(updateFocus({id : questionData.id}));
     }
     return (
-        <form className="question-item-wrapper" onFocus={onUpdateFocus} onMouseDown={onClickUpdateFocus}>
-            { questionnaire.viewPage === HOME && questionnaire.focusedId === questionData.id && <div className="question-item-focused"></div>}
-            <div className="question-item-content">
-                <QuestionItemHeader questionData={ questionData }/>
-                {children}
-                { questionnaire.viewPage === HOME && questionData.id === questionnaire.focusedId && <QuestionItemFooter questionData={ questionData }/>}
-            </div>
-        </form>
+        <Draggable draggableId={String(questionData.id)} index={idx}>
+            {(provided) => (
+                <form {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className="question-item-wrapper" onFocus={onUpdateFocus} onMouseDown={onClickUpdateFocus}>
+                    <div className="question-item-drag-icon"><DragHandleIcon /></div>
+                    { questionnaire.viewPage === HOME && questionnaire.focusedId === questionData.id && <div className="question-item-focused"></div>}
+                    <div className="question-item-content">
+                        <QuestionItemHeader questionData={ questionData }/>
+                        {children}
+                        { questionnaire.viewPage === HOME && questionData.id === questionnaire.focusedId && <QuestionItemFooter questionData={ questionData }/>}
+                    </div>
+                </form>
+            )}
+        </Draggable>
     )
 }
 

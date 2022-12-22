@@ -1,5 +1,5 @@
 import "./QuestionItemList.scss";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { RootState } from "../../store/slices";
 import { Dispatch } from "redux";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
@@ -8,45 +8,57 @@ import LongQuestion from "../QuestionItem/LongQuestion";
 import MultipleQuestion from "../QuestionItem/MultipleQuestion";
 import CheckBoxQuestion from "../QuestionItem/CheckBoxQuestion";
 import DropDownQuestion from "../QuestionItem/DropDownQuestion";
-import { createInitialQuestion } from "../../store/slices/questionnaireSlice";
+import { createInitialQuestion, updateDragAndDrop } from "../../store/slices/questionnaireSlice";
 import QuestionItem from "../QuestionItem";
 import { CHECKBOX, DROPDOWN, EXPLANATION, LONG, MULTIPLE, SHORT } from "../../constants";
 import ExplanationItem from "../ExplanationItem";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 type QuestionnaireItemListType = {
     questionnaire : Questionnaire
 }
 
 const QuestionItemList = ({ questionnaire } : QuestionnaireItemListType) => {
+    const dispatch = useDispatch();
+    const handleOnEndDrag = (e : any) => {
+        console.log(e);
+        dispatch(updateDragAndDrop({ draggedIndex : e.source.index, draggedOverIndex : e.destination.index}))
+    }
     return (
-        <div id="question-item-list-wrapper">
-            {questionnaire.questions.map((question : QuestionItemType | ExplanationItemType) => {
+        <DragDropContext onDragEnd={handleOnEndDrag}>
+            <Droppable droppableId="questionItem">
+                {(provided) => (
+                <div id="question-item-list-wrapper" {...provided.droppableProps} ref={provided.innerRef}>
+                    {questionnaire.questions.map((question : QuestionItemType | ExplanationItemType, idx : number) => {
+                        switch(question.type){
+                            case EXPLANATION:
+                                return <ExplanationItem key={question.id} idx={idx} questionData={question}/>;
+                            case SHORT:
+                                return <QuestionItem key={question.id} idx={idx} children={ <ShortQuestion questionData={question} />}/>
+                            case LONG:
+                                return <QuestionItem key={question.id} idx={idx} children={ <LongQuestion questionData={question}/> }/>
+                            case MULTIPLE:
+                                return <QuestionItem key={question.id} idx={idx} children={ <MultipleQuestion questionData={question} /> }/>
+                            case CHECKBOX:
+                                return <QuestionItem key={question.id} idx={idx} children={ <CheckBoxQuestion questionData={question} /> }/>
+                            case DROPDOWN:
+                                return <QuestionItem key={question.id} idx={idx} children={ <DropDownQuestion questionData={question} /> }/>
+                        }
+                        return null;
+                    })}
+                    {provided.placeholder}
+                </div>
+                )}
                 
-                switch(question.type){
-                    case EXPLANATION:
-                        return <ExplanationItem key={question.id} questionData={question}/>;
-                    case SHORT:
-                        return <QuestionItem key={question.id} children={ <ShortQuestion questionData={question} /> }/>
-                    case LONG:
-                        return <QuestionItem key={question.id} children={ <LongQuestion questionData={question}/> }/>
-                    case MULTIPLE:
-                        return <QuestionItem key={question.id} children={ <MultipleQuestion questionData={question} /> }/>
-                    case CHECKBOX:
-                        return <QuestionItem key={question.id} children={ <CheckBoxQuestion questionData={question} /> }/>
-                    case DROPDOWN:
-                        return <QuestionItem key={question.id} children={ <DropDownQuestion questionData={question} /> }/>
-                }
-                return null;
-                
-            })}
-            
-        </div>
+            </Droppable>
+        </DragDropContext>
     )
 }
 
 const mapDispatchToProps = (dispatch : Dispatch) => {
     return {
         createInititalQuestion : () => dispatch(createInitialQuestion()),
+        updateDragAndDrop : (draggedIndex : number, draggedOverIndex : number) => dispatch(updataDragAndDrop({draggedIndex, draggedOverIndex})),
     }
 }
 
@@ -57,3 +69,7 @@ const mapStateToProps = ( state : RootState ) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionItemList);
+
+function updataDragAndDrop(arg0: { draggedIndex: any; draggedOverIndex: any; }): any {
+    throw new Error("Function not implemented.");
+}
