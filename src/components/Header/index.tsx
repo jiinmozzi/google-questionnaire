@@ -64,7 +64,7 @@ const Header = ({ questionnaire } : HeaderPropsType) => {
                         style={{
                             fontStyle : questionnaire.header.explanationStyles.indexOf(ITALIC) === -1 ? "" : "italic",
                             fontWeight : questionnaire.header.explanationStyles.indexOf(BOLD) === -1 ? "" : "bold",
-                            textDecoration : questionnaire.header.titleStyles.indexOf(UNDERLINE) === -1 ? "" : "underline",
+                            textDecoration : questionnaire.header.explanationStyles.indexOf(UNDERLINE) === -1 ? "" : "underline",
                         }}
                         id="header-explanation" 
                         type="text"
