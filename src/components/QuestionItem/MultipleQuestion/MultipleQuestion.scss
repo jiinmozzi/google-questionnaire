@@ -1,4 +1,5 @@
 $main-color : rgb(103,58,182);
+$gray-color : rgb(95,99,103);
 
 .multiple-question-wrapper{
     .choice-add-indicator{
@@ -6,6 +7,7 @@ $main-color : rgb(103,58,182);
         display : flex;
         align-items : center;
         position : relative;
+        
         .choice-add-icon{
             color : rgb(95,99,103);
             margin-right : 20px;
@@ -45,6 +47,17 @@ $main-color : rgb(103,58,182);
         display : flex;
         align-items : center;
         position : relative;
+        
+        .choice-drag-icon{
+            position : absolute;
+            left : -20px;
+
+            color : rgba(95,99,103, 0.2);
+            &:hover{
+                cursor : move;
+            }
+        }
+        
         .multiple-question-label{
             // position : relative;
             top : 2px;

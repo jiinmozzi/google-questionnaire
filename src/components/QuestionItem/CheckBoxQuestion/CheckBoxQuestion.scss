@@ -51,6 +51,15 @@ $main-color : rgb(103,58,182);
                 color : rgb(95,99,103);
             }
         }
+        .choice-drag-icon{
+            position : absolute;
+            left : -20px;
+
+            color : rgba(95,99,103, 0.2);
+            &:hover{
+                cursor : move;
+            }
+        }
         .checkbox-question-input{
             height : 100%;
             width : 80%;

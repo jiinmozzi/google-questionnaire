@@ -152,7 +152,6 @@ const questionnaireSlice = createSlice({
 
         updateHeaderTitle : (state, action) => {
             const {value} = action.payload;
-            console.log(value);
             state.header.title = value;
         },
 
@@ -214,12 +213,23 @@ const questionnaireSlice = createSlice({
                 if (question.type !== EXPLANATION)  question.answer = [];
             })
         },
-        updateDragAndDrop : (state, action) => {
+        updateItemOrder : (state, action) => {
             const {draggedIndex, draggedOverIndex} = action.payload;
             const item = state.questions[draggedIndex];
             state.questions.splice(draggedIndex, 1);
             state.questions.splice(draggedOverIndex, 0, item);
         },
+        updateOptionOrder : (state, action) => {
+            const {draggedIndex, draggedOverIndex, id} = action.payload;
+            const item = state.questions.find((question : QuestionItemType | ExplanationItemType) => question.id === id) as QuestionItemType;
+            
+            if (item.options){
+                const dragged = item.options[draggedIndex];
+                item.options.splice(draggedIndex, 1);
+                item.options.splice(draggedOverIndex, 0, dragged);
+            }
+        },
+        
         updateHeaderStyles : (state, action) => {
             const {id, option} = action.payload;
             
@@ -276,7 +286,8 @@ export const {
     updateOption,
     updateViewPage,
     resetQuesionnaireAnswers,
-    updateDragAndDrop,
+    updateItemOrder,
+    updateOptionOrder,
     updateHeaderStyles,
     resetHeaderStyles
 } = questionnaireSlice.actions;

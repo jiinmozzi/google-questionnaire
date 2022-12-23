@@ -42,16 +42,12 @@ const QuestionItem = ({ questionnaire, children, idx } : QuestionItemPropsType) 
         dispatch(updateFocus({id : questionData.id}));
     }
     return (
-        questionnaire.viewPage === HOME ? 
-        <Draggable draggableId={String(questionData.id)} index={idx}>
+        // questionnaire.viewPage === HOME ? 
+        <Draggable key={questionData.id} draggableId={String(questionData.id)} index={idx}>
             {(provided) => (
-                <form {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className="question-item-wrapper" onFocus={onUpdateFocus} onMouseDown={onClickUpdateFocus}>
-                    { questionnaire.viewPage === HOME && questionnaire.focusedId === questionData.id && 
-                        <>
-                            <div className="question-item-drag-icon"><DragHandleIcon /></div>
-                            <div className="question-item-focused"></div>
-                        </>
-                    }
+                <form {...provided.draggableProps} ref={provided.innerRef} className="question-item-wrapper" onFocus={onUpdateFocus} onMouseDown={onClickUpdateFocus}>
+                    { <div {...provided.dragHandleProps} style={{ display : questionnaire.viewPage === HOME && questionnaire.focusedId === questionData.id ? "" : "none" }}className="question-item-drag-icon"><DragHandleIcon /></div> }
+                    { questionnaire.viewPage === HOME && questionnaire.focusedId === questionData.id && <div className="question-item-focused"></div> }
                     <div className="question-item-content">
                         <QuestionItemHeader questionData={ questionData }/>
                         {children}
@@ -60,14 +56,14 @@ const QuestionItem = ({ questionnaire, children, idx } : QuestionItemPropsType) 
                 </form>
             )}
         </Draggable>
-        : (
-            <form className="question-item-wrapper" onFocus={onUpdateFocus} onMouseDown={onClickUpdateFocus}>
-                    <div className="question-item-content">
-                        <QuestionItemHeader questionData={ questionData }/>
-                        {children}
-                    </div>
-                </form>
-        )
+        // : (
+        //     <form className="question-item-wrapper" onFocus={onUpdateFocus} onMouseDown={onClickUpdateFocus}>
+        //         <div className="question-item-content">
+        //             <QuestionItemHeader questionData={ questionData }/>
+        //             {children}
+        //         </div>
+        //     </form>
+        // )
     )
 }
 

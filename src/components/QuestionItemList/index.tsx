@@ -8,11 +8,11 @@ import LongQuestion from "../QuestionItem/LongQuestion";
 import MultipleQuestion from "../QuestionItem/MultipleQuestion";
 import CheckBoxQuestion from "../QuestionItem/CheckBoxQuestion";
 import DropDownQuestion from "../QuestionItem/DropDownQuestion";
-import { createInitialQuestion, updateDragAndDrop } from "../../store/slices/questionnaireSlice";
+import { createInitialQuestion, updateItemOrder } from "../../store/slices/questionnaireSlice";
 import QuestionItem from "../QuestionItem";
 import { CHECKBOX, DROPDOWN, EXPLANATION, LONG, MULTIPLE, SHORT } from "../../constants";
 import ExplanationItem from "../ExplanationItem";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
 
 type QuestionnaireItemListType = {
     questionnaire : Questionnaire
@@ -20,12 +20,13 @@ type QuestionnaireItemListType = {
 
 const QuestionItemList = ({ questionnaire } : QuestionnaireItemListType) => {
     const dispatch = useDispatch();
-    const handleOnEndDrag = (e : any) => {
-        console.log(e);
-        dispatch(updateDragAndDrop({ draggedIndex : e.source.index, draggedOverIndex : e.destination.index}))
+    const onDragEnd = (result : DropResult) => {
+        const {source, destination} = result;
+        if (!destination ) return;
+        dispatch(updateItemOrder({ draggedIndex : source.index, draggedOverIndex : destination.index}))
     }
     return (
-        <DragDropContext onDragEnd={handleOnEndDrag}>
+        <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="questionItem">
                 {(provided) => (
                 <div id="question-item-list-wrapper" {...provided.droppableProps} ref={provided.innerRef}>
@@ -49,7 +50,6 @@ const QuestionItemList = ({ questionnaire } : QuestionnaireItemListType) => {
                     {provided.placeholder}
                 </div>
                 )}
-                
             </Droppable>
         </DragDropContext>
     )
@@ -58,7 +58,7 @@ const QuestionItemList = ({ questionnaire } : QuestionnaireItemListType) => {
 const mapDispatchToProps = (dispatch : Dispatch) => {
     return {
         createInititalQuestion : () => dispatch(createInitialQuestion()),
-        updateDragAndDrop : (draggedIndex : number, draggedOverIndex : number) => dispatch(updataDragAndDrop({draggedIndex, draggedOverIndex})),
+        updateItemOrder : (draggedIndex : number, draggedOverIndex : number) => dispatch(updateItemOrder({draggedIndex, draggedOverIndex})),
     }
 }
 
