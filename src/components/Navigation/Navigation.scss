@@ -2,6 +2,11 @@
     width : 768px;
     margin : 0 auto;
     margin-top : 40px;
+    .page-link{
+        &:hover{
+            cursor : pointer;
+        }
+    }
 }
 
 @media ( max-width : 768px){

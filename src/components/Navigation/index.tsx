@@ -21,19 +21,19 @@ const Navigation = ({questionnaire} : NavigationPropsType) => {
             <Breadcrumbs aria-label="breadcrumb">
             { questionnaire.viewPage === HOME ? 
                 <Typography color="text.primary">Home</Typography> :
-                <Link underline="hover" color="inherit" onClick={() => navigate('/')}>
+                <Link className="page-link" underline="hover" color="inherit" onClick={() => navigate('/')}>
                     Home
                 </Link>
             }
             { questionnaire.viewPage === PREVIEW ?
                 <Typography color="text.primary">Preview</Typography> :
-                <Link underline="hover" color="inherit" onClick={() => navigate('/preview')}>
+                <Link className="page-link" underline="hover" color="inherit" onClick={() => navigate('/preview')}>
                     Preview
                 </Link>
             }
             { questionnaire.viewPage === RESPONSE ? 
                 <Typography color="text.primary">Response</Typography> :
-                <Link underline="hover" color="inherit" onClick={() => navigate('/response')}>
+                <Link className="page-link" underline="hover" color="inherit" onClick={() => navigate('/response')}>
                     Response
                 </Link>
             }
