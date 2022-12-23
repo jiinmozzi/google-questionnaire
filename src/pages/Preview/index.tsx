@@ -10,6 +10,7 @@ import Header from "../../components/Header";
 import QuestionItemList from "../../components/QuestionItemList";
 import { ExplanationItemType, QuestionItemType, Questionnaire } from "../../types";
 import { Alert } from "@mui/material";
+import Navigation from "../../components/Navigation";
 
 type PreviewPropsType = {
     questionnaire : Questionnaire
@@ -45,6 +46,8 @@ const Preview = ({ questionnaire } : PreviewPropsType) => {
     }
     
     return (
+        <>
+        <Navigation />
         <div id="preview-wrapper">
             { needsComplement && <Alert className="complement-alert" severity="warning">필수 항목들을 채워주십시오</Alert> }
             <div id="preview-form">
@@ -56,6 +59,7 @@ const Preview = ({ questionnaire } : PreviewPropsType) => {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 

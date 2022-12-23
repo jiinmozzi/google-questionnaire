@@ -1,0 +1,11 @@
+.navigation-wrapper{
+    width : 768px;
+    margin : 0 auto;
+    margin-top : 40px;
+}
+
+@media ( max-width : 768px){
+    .navigation-wrapper{
+        width: 100%;
+    }
+}

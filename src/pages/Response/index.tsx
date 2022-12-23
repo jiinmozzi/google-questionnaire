@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Dispatch } from "redux";
 import Header from "../../components/Header";
+import Navigation from "../../components/Navigation";
 import QuestionItemList from "../../components/QuestionItemList";
 import { RESPONSE } from "../../constants";
 import { RootState } from "../../store/slices";
@@ -15,6 +16,7 @@ const Response = () => {
     }, [dispatch])
     return (
         <div id="response-wrapper">
+            <Navigation />
             <Header />
             <QuestionItemList />
         </div>

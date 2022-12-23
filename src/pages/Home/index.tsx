@@ -8,6 +8,7 @@ import { updateViewPage } from "../../store/slices/questionnaireSlice";
 import { HOME } from "../../constants";
 import { RootState } from "../../store/slices";
 import { connect, useDispatch } from "react-redux";
+import Navigation from "../../components/Navigation";
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const Home = () => {
     }, [dispatch])
     return (
         <div id="home-wrapper">
+            <Navigation />
             <Header />
             <QuestionItemList />
             <SideBar />
