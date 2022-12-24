@@ -20,7 +20,6 @@ $main-color : rgb(103,58,182);
         }
         .dropdown-add-div{
             height : 100%;
-            // width : 50%;
             display : flex;
             align-items: center;
             padding : 10px 0;
@@ -49,13 +48,11 @@ $main-color : rgb(103,58,182);
         }
     }
     .dropdown-question-choice-wrapper{
-        // padding : 14px 0;
         margin : 10px 0;
         display : flex;
         align-items : center;
         position : relative;
         .dropdown-question-label{
-            // position : relative;
             top : 2px;
             width : 15px;
             margin-right : 20px;

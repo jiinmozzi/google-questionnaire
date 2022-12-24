@@ -71,7 +71,6 @@ const MultipleQuestionChoice = ( { questionnaire, idx, id, option, options, answ
 }
 
 const MultipleQuestion = ({ questionnaire, questionData } : MultipleQuestionPropsType) => {
-    // const [choiceOptions, setChoiceOptions] = useState<string[]>([]);
     const dispatch = useDispatch();
     
     const onAddOption = (e : React.MouseEvent) => {
