@@ -5,7 +5,6 @@ $gray-color : rgb(95,99,103);
     width : 100%;
     display : flex;
     justify-content: space-between;
-    align-items : center;    
     margin-top : 24px;
     .question-title-wrapper{
         width : 400px;
@@ -25,14 +24,34 @@ $gray-color : rgb(95,99,103);
                 border-bottom : 2px solid $main-color;
             }
         }
+        .question-title-textarea{
+            width : 100%;
+            min-height : 56px;
+            padding-top : 20px;
+            background-color : rgb(240,243,244);
+            outline : none;
+            border : none;
+            border-bottom : 1px solid $gray-color;
+            padding-left : 10px;
+            font-size : 16px;
+            line-height : 24px;
+            resize : none;
+            transition : 0.3s ease-in-out;
+            overflow-y: hidden;
+            &:focus{
+                border-bottom : 2px solid $main-color;
+            }
+        }
         .unfocused-item-title{
             font-size : 16px;
         }
         .asterisk{
             color : red;
+            
         }
     }
     .photo-disabled{
+        margin-top : 16px;  
         font-size : 26px;
         &:hover{
             cursor : not-allowed;
